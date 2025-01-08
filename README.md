@@ -46,22 +46,22 @@ DISTINCT
 ### 2. JOIN
 
 ```sql
-JOIN
+JOIN -- INNER
 LEFT JOIN
 RIGHT JOIN
-FULL JOIN
+FULL JOIN -- OUTER
 CROSS JOIN
 ```
 
-`JOIN` - matching rows (default, `INNER`)<br>
-`FULL JOIN` - all rows (`OUTER`) <br>
+`JOIN` - matching rows <br>
+`FULL JOIN` - all rows <br>
 `CROSS JOIN` - match each row (cartesian product) <br>
 
 <!-- ----------------------------------------------------------------------- -->
 
 ### 3. WHERE
 
-* filter
+* filter before aggregation
 
 ```sql
 WHERE NOT ...
@@ -90,23 +90,33 @@ WHERE EXISTS <SELECT statement>
 
 ### 4. GROUP BY
 
+```sql
+GROUP BY <#>
+```
+
+* `#` is based on `SELECT` statement
+* ex. `GROUP BY 1` = first column in `SELECT` list
+
 <!-- ----------------------------------------------------------------------- -->
 
 ### 5. HAVING
 
-* filter on aggregate value
+* filter after aggregation
 
 <!-- ----------------------------------------------------------------------- -->
 
 ### 6. ORDER BY
 
 ```sql
-ORDER BY ... ASC (default)
+ORDER BY ... ASC -- default
 ORDER BY ... DESC
 ORDER BY ..., ...
 
-ORDER BY <#> (column number)
+ORDER BY <#>
 ```
+
+* `#` is based on `SELECT` statement
+* ex. `ORDER BY 1` = first column in `SELECT` list
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -134,7 +144,7 @@ IS NULL
 IS NOT NULL
 ```
 
-see [`ISNULL()`]()
+* see [`ISNULL()`]()
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -143,7 +153,7 @@ see [`ISNULL()`]()
 > CASE
 
 * basically if/then logic
-* see function [`IF()`]()
+* see function [`IF()`](#conditional-branching)
 
 ```sql
 CASE
@@ -186,7 +196,8 @@ END
 ## 🛠️ FUNCTIONS
 
 1. [📊 Aggregate Functions](#📊-aggregate-functions) <br>
-2. [Misc Functions](#2-join) <br>
+2. [Window Functions](#window-functions) <br>
+3. [Misc Functions](#2-join) <br>
    &nbsp; • [Math](#math) <br>
    &nbsp; • [String](#string) <br>
    &nbsp; • [📆 Date](#📆-date) <br>
@@ -220,13 +231,42 @@ MAX()
 COUNT()
 ```
 
-`COUNT(*)` - all rows (NULL rows counted) <br>
-`COUNT(col)` - non-NULL rows (NULL rows <ins>**not**</ins> counted) <br>
+`COUNT(*)` - all rows (`NULL` rows counted) <br>
+`COUNT(col)` - non-NULL rows (`NULL` rows <ins>**not**</ins> counted) <br>
 
-| EXPRESSION   | NOTES         | NULL rows counted |
-| ------------ | ------------- | ----------------- |
-| `COUNT(*)`   | all rows      | yes               |
-| `COUNT(col)` | non-NULL rows | no                |
+<!-- ----------------------------------------------------------------------- -->
+
+### WINDOW FUNCTIONS
+
+* calculations across a specified set of rows related to the current row (within a defined "window" of data)
+* does not alter the data set
+
+```sql
+<window function>() OVER()
+<window function>() OVER(PARTITION BY ... )
+<window function>() OVER(ORDER BY ...)
+<window function>() OVER(PARTITION BY ... ORDER BY ...)
+<window function>() OVER(PARTITION BY ... ORDER BY ...) AS <alias>
+```
+
+* `<window function>(<column>)` - column to apply window function to
+
+> RANKING
+
+```sql
+ROW_NUMBER()
+```
+
+* `ROW_NUMBER()` - unique row number
+
+```sql
+RANK()
+DENSE_RANK()
+```
+
+* duplicates are based on `ORDER BY` and assigns the same number
+* `RANK()` - not numerically but positionally (ex. 4 5 5 7)
+* `DENSE_RANK()` - numerically (ex. 4 5 5 6)
 
 <!-- ----------------------------------------------------------------------- -->
 
