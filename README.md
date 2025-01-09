@@ -154,21 +154,48 @@ IS NOT NULL
 
 * basically if/then logic
 * see function [`IF()`](#conditional-branching)
+* no `ELSE` will act as an `ELSE NULL` clause
 
 ```sql
 CASE
-   WHEN <condition> THEN <result>
-      ...
-   WHEN <condition> THEN <result>
-   ELSE <result>
+   ...
 END AS '<alias>'
 ```
 
 ```sql
-CASE col
+CASE
+   ...
+END
+```
+
+> Simple CASE
+
+```sql
+CASE <expression>
    WHEN 'value' THEN 'result'
       ...
    WHEN 'value' THEN 'result'
+   ELSE 'result'
+END
+```
+
+* `<expression>` can be a
+  * column (`column_name`)
+  * literal value (`'string'`)
+  * constant (predefined known value)
+  * calulated value (`price - discount`, `salary * 2`)
+  * function result (`MONTH(order_date)`)
+  * subquery result (`SELECT COUNT(*) FROM ...`)
+  * type-cast value (`CAST(value AS INT)`)
+  * `NULL`
+
+> Searched CASE
+
+```sql
+CASE
+   WHEN <condition> THEN 'result'
+      ...
+   WHEN <condition> THEN 'result'
    ELSE 'result'
 END
 ```
