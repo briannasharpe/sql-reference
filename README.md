@@ -4,6 +4,7 @@
    &nbsp; • [Misc](#misc) <br>
 2. [🛠️ Functions](#🛠️-functions) <br>
    &nbsp; • [📊 Aggregate Functions](#📊-aggregate-functions) <br>
+   &nbsp; • [Window Functions](#window-functions) <br>
    &nbsp; • [Misc Functions](#misc-functions) <br>
 
 <!-- ----------------------------------------------------------------------- -->
@@ -65,27 +66,48 @@ CROSS JOIN
 
 ```sql
 WHERE NOT ...
+```
 
+```sql
+WHERE ... OR ...
+```
+
+```sql
 WHERE ... AND ...
 WHERE ... AND (... OR ...)
+```
 
-WHERE ... OR ...
-
+```sql
 WHERE ... BETWEEN ... AND ...
+```
 
+```sql
 WHERE ... IN ...
-WHERE ... IN <value1, value2, ...>
+WHERE ... IN ('value1', 'value2', ...)
 WHERE ... IN <SELECT statement>
 WHERE ... NOT IN ...
 
+WHERE col IN ... OR col = NULL -- for NULL values
+```
+
+* `IN` matches any value in a list of specified values
+  * shorthand for multiple `OR` conditions
+  * `WHERE ... IN <value1, value2, ...>` = `WHERE ... <value1> OR <value2> OR <value3>`
+* `WHERE ... IN <SELECT statement>` must use the same number of columns
+
+```sql
 WHERE ... LIKE ...
 WHERE ... NOT LIKE ...
+```
 
+```sql
 WHERE EXISTS <SELECT statement>
 ```
+
 <!--
 * NOT IN =/= NOT EXISTS (with NULL) https://stackoverflow.com/questions/173041/not-in-vs-not-exists
 -->
+
 <!-- ----------------------------------------------------------------------- -->
 
 ### 4. GROUP BY
@@ -102,6 +124,10 @@ GROUP BY <#>
 ### 5. HAVING
 
 * filter after aggregation
+
+```sql
+HAVING ... = <SELECT statement>
+```
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -225,6 +251,7 @@ END
 1. [📊 Aggregate Functions](#📊-aggregate-functions) <br>
 2. [Window Functions](#window-functions) <br>
 3. [Misc Functions](#2-join) <br>
+   &nbsp; • [Conditional Branching](#conditional-branching) <br>
    &nbsp; • [Math](#math) <br>
    &nbsp; • [String](#string) <br>
    &nbsp; • [📆 Date](#📆-date) <br>
@@ -284,7 +311,7 @@ COUNT()
 ROW_NUMBER()
 ```
 
-* `ROW_NUMBER()` - unique row number
+* `ROW_NUMBER()` - unique sequential number
 
 ```sql
 RANK()
@@ -304,6 +331,7 @@ DENSE_RANK()
 ```sql
 IF(condition, value_if_true, value_if_false)
 ```
+
 <!--
 * `value_if_true` and `value_if_false` are <ins>**required**</ins>
 
@@ -374,3 +402,16 @@ DATE_FORMAT(col, '<format>')
 | %x     | Year for the week where Monday is the first day of the week. Used with %v    |
 | %Y     | Year as a numeric, 4-digit value                                             |
 | %y     | Year as a numeric, 2-digit value                                             |
+
+```sql
+DATE_ADD(date, INTERVAL <value> <unit>)
+DATE_SUB(date, INTERVAL <value> <unit>)
+```
+
+> `DATE_ADD` and `DATE_SUB` parameter values ([`ADD` source](https://www.w3schools.com/sql/func_mysql_date_add.asp), [`SUB` source](https://www.w3schools.com/sql/func_mysql_date_sub.asp))
+
+| Parameter | Description                                                                                                   |
+| --------- | ------------------------------------------------------------------------------------------------------------- |
+| date      | Required. The date to be modified                                                                             |
+| value     | Required. The value of the time/date interval to add/subtract. Both positive and negative values are allowed  |
+| unit      | Required. The type of interval to add/subtract. Can be one of the following values: <li>MICROSECOND</li> <li>SECOND</li> <li>MINUTE</li> <li>HOUR</li> <li>DAY</li> <li>WEEK</li> <li>MONTH</li> <li>QUARTER</li> <li>YEAR</li> <li>SECOND_MICROSECOND</li> <li>MINUTE_MICROSECOND</li> <li>MINUTE_SECOND</li> <li>HOUR_MICROSECOND</li> <li>HOUR_SECOND</li> <li>HOUR_MINUTE</li> <li>DAY_MICROSECOND</li> <li>DAY_SECOND</li> <li>DAY_MINUTE</li> <li>DAY_HOUR</li> <li>YEAR_MONTH</li>                                               |
