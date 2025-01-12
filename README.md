@@ -281,6 +281,8 @@ MIN()
 MAX()
 ```
 
+* `MAX(varchar)` - based on lexicographical order (ASCII value)
+
 ```sql
 COUNT()
 ```
