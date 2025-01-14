@@ -20,6 +20,7 @@ WHERE <condition>
 GROUP BY ...
 HAVING <condition>
 ORDER BY ...
+LIMIT <#>
 ```
 
 1. [Select](#1-select) <br>
@@ -28,8 +29,8 @@ ORDER BY ...
 4. [Group By](#4-group-by) <br>
 5. [Having](#5-having) <br>
 6. [Order By](#6-order-by) <br>
-7. [Misc](#misc) <br>
-   &nbsp; • [Clause](#clause) <br>
+7. [Limit](#7-limit)
+8. [Misc](#misc) <br>
    &nbsp; • [Operator](#operator) <br>
    &nbsp; • [Expression](#expression) <br>
    &nbsp; • [Wildcards](#wildcards)
@@ -146,24 +147,33 @@ ORDER BY <#>
 
 <!-- ----------------------------------------------------------------------- -->
 
-### MISC
-
-1. [Clause](#clause) <br>
-2. [Operator](#operator) <br>
-3. [Expression](#expression) <br>
-4. [Wildcards](#wildcards) <br>
+### 7. LIMIT
 
 <!-- ----------------------------------------------------------------------- -->
 
-#### CLAUSE
+### MISC
 
-```sql
-LIMIT <#>
-```
+1. [Operator](#operator) <br>
+2. [Expression](#expression) <br>
+3. [Wildcards](#wildcards) <br>
 
 <!-- ----------------------------------------------------------------------- -->
 
 #### OPERATOR
+
+> UNION
+
+```sql
+<SELECT statement>
+UNION
+<SELECT statement>
+```
+
+* combine result-set of two or more `SELECT` statements
+* must have same number of columns and similar data types
+* `UNION-ALL` allow duplicate values
+
+> NULL
 
 ```sql
 IS NULL
@@ -264,10 +274,12 @@ END
 SUM()
 ```
 
-`SUM(<condition>)` - the count of rows where the condition is TRUE <br>
+* `SUM(<condition>)` - the count of rows where the condition is TRUE <br>
 
-`SUM(CASE WHEN <condition> THEN col ELSE 0 END)` - sum of condition <!-- (see [`CASE`](#case)) --> (preferred)<br>
-`SUM((<condition>) * col)` - sum of condition <!-- ! --> (if condition is `NULL`, the row is ignored)
+* `SUM(CASE WHEN <condition> THEN col ELSE 0 END)` - sum of condition <!-- (see [`CASE`](#case)) --> (preferred)<br>
+* `SUM(<condition> * col)` - sum of condition <!-- ! --> (if condition is `NULL`, the row is ignored)
+
+* rolling total - see [WINDOW FUNCTIONS](#window-functions)
 
 ```sql
 AVG()
@@ -287,8 +299,8 @@ MAX()
 COUNT()
 ```
 
-`COUNT(*)` - all rows (`NULL` rows counted) <br>
-`COUNT(col)` - non-NULL rows (`NULL` rows <ins>**not**</ins> counted) <br>
+* `COUNT(*)` - all rows (`NULL` rows counted) <br>
+* `COUNT(col)` - non-NULL rows (`NULL` rows <ins>**not**</ins> counted) <br>
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -323,6 +335,36 @@ DENSE_RANK()
 * duplicates are based on `ORDER BY` and assigns the same number
 * `RANK()` - not numerically but positionally (ex. 4 5 5 7)
 * `DENSE_RANK()` - numerically (ex. 4 5 5 6)
+
+> POSITION
+
+```sql
+LAG(expression, offset, default) -- previous row
+```
+
+```sql
+LEAD(expression, offset, default) -- next row
+```
+
+* `expression` - column or built-in function
+* `offset` - physical offset from current row (default is 1)
+* `default` - value when offset goes beyond partition scope (default is `NULL`)
+
+> ROLLING TOTAL
+
+```sql
+SUM(...) OVER(...)
+```
+
+```sql
+-- self join version
+SELECT *
+FROM a
+JOIN b
+   ON a.id_column >= b.id_column
+GROUP BY a.id_column
+HAVING SUM(value_column) <= <#>
+```
 
 <!-- ----------------------------------------------------------------------- -->
 
