@@ -55,9 +55,18 @@ FULL JOIN -- OUTER
 CROSS JOIN
 ```
 
-`JOIN` - matching rows <br>
-`FULL JOIN` - all rows <br>
-`CROSS JOIN` - match each row (cartesian product) <br>
+* `JOIN` - matching rows <br>
+* `FULL JOIN` - all rows <br>
+* `CROSS JOIN` - match each row (cartesian product) <br>
+
+```sql
+-- MySQL FULL JOIN
+SELECT * FROM a
+LEFT JOIN b ON a.id = b.id
+UNION
+SELECT * FROM a
+RIGHT JOIN b ON a.id = b.id
+```
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -86,9 +95,11 @@ WHERE ... BETWEEN ... AND ...
 WHERE ... IN ...
 WHERE ... IN ('value1', 'value2', ...)
 WHERE ... IN <SELECT statement>
-WHERE ... NOT IN ...
 
 WHERE col IN ... OR col = NULL -- for NULL values
+
+WHERE ... NOT IN ...
+WHERE ... NOT IN <SELECT statement>
 ```
 
 * `IN` matches any value in a list of specified values
@@ -97,9 +108,11 @@ WHERE col IN ... OR col = NULL -- for NULL values
 * `WHERE ... IN <SELECT statement>` must use the same number of columns
 
 ```sql
-WHERE ... LIKE ...
-WHERE ... NOT LIKE ...
+WHERE ... LIKE '<pattern>'
+WHERE ... NOT LIKE '<pattern>'
 ```
+
+* see [WILDCARDS](#wildcards)
 
 ```sql
 WHERE EXISTS <SELECT statement>
@@ -138,16 +151,37 @@ HAVING ... = <SELECT statement>
 ORDER BY ... ASC -- default
 ORDER BY ... DESC
 ORDER BY ..., ...
+```
 
+```sql
 ORDER BY <#>
 ```
 
 * `#` is based on `SELECT` statement
 * ex. `ORDER BY 1` = first column in `SELECT` list
 
+```sql
+ORDER BY <expression> -- expression or function
+```
+
+```sql
+ORDER BY ... NULLS FIRST; -- control sort order of NULLS
+```
+
+```sql
+ORDER BY 
+   CASE
+      WHEN ... THEN ...
+   END
+```
+
 <!-- ----------------------------------------------------------------------- -->
 
 ### 7. LIMIT
+
+```sql
+LIMIT A OFFSET B; -- skip top B rows and fetch the next A
+```
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -171,7 +205,7 @@ UNION
 
 * combine result-set of two or more `SELECT` statements
 * must have same number of columns and similar data types
-* `UNION-ALL` allow duplicate values
+* `UNION ALL` allow duplicate values
 
 > NULL
 
@@ -215,7 +249,7 @@ CASE <expression>
 END
 ```
 
-* `<expression>` can be a
+* `<expression>` can be:
   * column (`column_name`)
   * literal value (`'string'`)
   * constant (predefined known value)
@@ -275,10 +309,8 @@ SUM()
 ```
 
 * `SUM(<condition>)` - the count of rows where the condition is TRUE <br>
-
 * `SUM(CASE WHEN <condition> THEN col ELSE 0 END)` - sum of condition <!-- (see [`CASE`](#case)) --> (preferred)<br>
 * `SUM(<condition> * col)` - sum of condition <!-- ! --> (if condition is `NULL`, the row is ignored)
-
 * rolling total - see [WINDOW FUNCTIONS](#window-functions)
 
 ```sql
@@ -319,6 +351,19 @@ COUNT()
 
 * `<window function>(<column>)` - column to apply window function to
 
+```sql
+OVER(ROWS BETWEEN <lower_bound> AND <upper_bound>) -- number of rows
+OVER(RANGE BETWEEN <lower_bound> AND <upper_bound>) -- values
+```
+
+* bounds can be:
+  * `UNBOUNDED PRECEDING` – all rows before the current row
+  * `# PRECEDING` – # rows before the current row
+  * `CURRENT ROW` – just the current row
+  * `# FOLLOWING` – # rows after the current row
+  * `UNBOUNDED FOLLOWING` – all rows after the current row
+* `RANGE` - typically used with `date` or `timestamp` values
+
 > RANKING
 
 ```sql
@@ -350,6 +395,12 @@ LEAD(expression, offset, default) -- next row
 * `offset` - physical offset from current row (default is 1)
 * `default` - value when offset goes beyond partition scope (default is `NULL`)
 
+```sql
+FIRST_VALUE()
+LAST_VALUE()
+NTH_VALUE(expression, #)
+```
+
 > ROLLING TOTAL
 
 ```sql
@@ -366,6 +417,13 @@ GROUP BY a.id_column
 HAVING SUM(value_column) <= <#>
 ```
 
+```sql
+-- date range
+SUM(...) OVER(RANGE BETWEEN INTERVAL <value> <unit> PRECEDING AND CURRENT ROW)
+```
+
+* see [`DATE_ADD` and `DATE_SUB` parameter values](#📆-date)
+
 <!-- ----------------------------------------------------------------------- -->
 
 ### MISC FUNCTIONS
@@ -376,18 +434,6 @@ HAVING SUM(value_column) <= <#>
 IF(condition, value_if_true, value_if_false)
 ```
 
-<!--
-* `value_if_true` and `value_if_false` are <ins>**required**</ins>
-
-> SQL Server
-
-```sql
-IIF(condition, value_if_true, value_if_false)
-```
-
-* `value_if_true` and `value_if_false` are <ins>**optional**</ins>
--->
-
 #### MATH
 
 ```sql
@@ -395,6 +441,7 @@ ROUND(number, decimal_value, )
 ```
 
 #### STRING
+
 <!-- 🔤🔠💬 -->
 
 ```sql
@@ -402,6 +449,12 @@ LENGTH(string)
 ```
 
 #### 📆 DATE
+
+```sql
+DAY()
+MONTH()
+YEAR()
+```
 
 ```sql
 DATEDIFF(date1, date2)
@@ -447,6 +500,44 @@ DATE_FORMAT(col, '<format>')
 | %Y     | Year as a numeric, 4-digit value                                             |
 | %y     | Year as a numeric, 2-digit value                                             |
 
+<!-- ! DATE_FORMAT table
+
+| Format | Description                                                                  |
+| ------ | ---------------------------------------------------------------------------- |
+| %a     | Abbreviated weekday name (Sun to Sat)                                        |
+| %b     | Abbreviated month name (Jan to Dec)                                          |
+| %c     | Numeric month name (0 to 12)                                                 |
+| %D     | Day of the month as a numeric value, followed by suffix (1st, 2nd, 3rd, ...) |
+| %d     | Day of the month as a numeric value (01 to 31)                               |
+| %e     | Day of the month as a numeric value (0 to 31)                                |
+| %f     | Microseconds (000000 to 999999)                                              |
+| %H     | Hour (00 to 23)                                                              |
+| %h     | Hour (00 to 12)                                                              |
+| %I     | Hour (00 to 12)                                                              |
+| %i     | Minutes (00 to 59)                                                           |
+| %j     | Day of the year (001 to 366)                                                 |
+| %k     | Hour (0 to 23)                                                               |
+| %l     | Hour (1 to 12)                                                               |
+| %M     | Month name in full (January to December)                                     |
+| %m     | Month name as a numeric value (00 to 12)                                     |
+| %p     | AM or PM                                                                     |
+| %r     | Time in 12 hour AM or PM format (hh:mm:ss AM/PM)                             |
+| %S     | Seconds (00 to 59)                                                           |
+| %s     | Seconds (00 to 59)                                                           |
+| %T     | Time in 24 hour format (hh:mm:ss)                                            |
+| %U     | Week where Sunday is the first day of the week (00 to 53)                    |
+| %u     | Week where Monday is the first day of the week (00 to 53)                    |
+| %V     | Week where Sunday is the first day of the week (01 to 53). Used with %X      |
+| %v     | Week where Monday is the first day of the week (01 to 53). Used with %x      |
+| %W     | Weekday name in full (Sunday to Saturday)                                    |
+| %w     | Day of the week where Sunday=0 and Saturday=6                                |
+| %X     | Year for the week where Sunday is the first day of the week. Used with %V    |
+| %x     | Year for the week where Monday is the first day of the week. Used with %v    |
+| %Y     | Year as a numeric, 4-digit value                                             |
+| %y     | Year as a numeric, 2-digit value                                             |
+
+-->
+
 ```sql
 DATE_ADD(date, INTERVAL <value> <unit>)
 DATE_SUB(date, INTERVAL <value> <unit>)
@@ -454,8 +545,18 @@ DATE_SUB(date, INTERVAL <value> <unit>)
 
 > `DATE_ADD` and `DATE_SUB` parameter values ([`ADD` source](https://www.w3schools.com/sql/func_mysql_date_add.asp), [`SUB` source](https://www.w3schools.com/sql/func_mysql_date_sub.asp))
 
-| Parameter | Description                                                                                                   |
-| --------- | ------------------------------------------------------------------------------------------------------------- |
-| date      | Required. The date to be modified                                                                             |
-| value     | Required. The value of the time/date interval to add/subtract. Both positive and negative values are allowed  |
-| unit      | Required. The type of interval to add/subtract. Can be one of the following values: <li>MICROSECOND</li> <li>SECOND</li> <li>MINUTE</li> <li>HOUR</li> <li>DAY</li> <li>WEEK</li> <li>MONTH</li> <li>QUARTER</li> <li>YEAR</li> <li>SECOND_MICROSECOND</li> <li>MINUTE_MICROSECOND</li> <li>MINUTE_SECOND</li> <li>HOUR_MICROSECOND</li> <li>HOUR_SECOND</li> <li>HOUR_MINUTE</li> <li>DAY_MICROSECOND</li> <li>DAY_SECOND</li> <li>DAY_MINUTE</li> <li>DAY_HOUR</li> <li>YEAR_MONTH</li>                                               |
+| Parameter | Description                                                                                                              |
+| --------- | ------------------------------------------------------------------------------------------------------------------------ |
+| date      | Required. The date to be modified                                                                                        |
+| value     | Required. The value of the time/date interval to add/subtract. Both positive and negative values are allowed             |
+| unit      | Required. The type of interval to add/subtract. Can be one of the following values:<li>MICROSECOND</li> <li>SECOND</li> <li>MINUTE</li> <li>HOUR</li> <li>DAY</li> <li>WEEK</li> <li>MONTH</li> <li>QUARTER</li> <li>YEAR</li> <li>SECOND_MICROSECOND</li> <li>MINUTE_MICROSECOND</li> <li>MINUTE_SECOND</li> <li>HOUR_MICROSECOND</li> <li>HOUR_SECOND</li> <li>HOUR_MINUTE</li> <li>DAY_MICROSECOND</li> <li>DAY_SECOND</li> <li>DAY_MINUTE</li> <li>DAY_HOUR</li> <li>YEAR_MONTH<li>                                                                               |
+
+<!-- ! DATE_ADD / DATE_SUB table
+
+| Parameter | Description                                                                                                              |
+| --------- | ------------------------------------------------------------------------------------------------------------------------ |
+| date      | Required. The date to be modified                                                                                        |
+| value     | Required. The value of the time/date interval to add/subtract. Both positive and negative values are allowed             |
+| unit      | Required. The type of interval to add/subtract. Can be one of the following values:<li>MICROSECOND</li> <li>SECOND</li> <li>MINUTE</li> <li>HOUR</li> <li>DAY</li> <li>WEEK</li> <li>MONTH</li> <li>QUARTER</li> <li>YEAR</li> <li>SECOND_MICROSECOND</li> <li>MINUTE_MICROSECOND</li> <li>MINUTE_SECOND</li> <li>HOUR_MICROSECOND</li> <li>HOUR_SECOND</li> <li>HOUR_MINUTE</li> <li>DAY_MICROSECOND</li> <li>DAY_SECOND</li> <li>DAY_MINUTE</li> <li>DAY_HOUR</li> <li>YEAR_MONTH<li>                                                                               |
+
+-->
