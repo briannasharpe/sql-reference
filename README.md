@@ -6,6 +6,7 @@
    &nbsp; • [📊 Aggregate Functions](#📊-aggregate-functions) <br>
    &nbsp; • [Window Functions](#window-functions) <br>
    &nbsp; • [Misc Functions](#misc-functions) <br>
+3. [🗃️ Database](#🗃️-database)
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -280,12 +281,27 @@ END
 'startswith%'
 '%endswith'
 '%contains%'
+'[a-f]%' -- any starting with a, b, c, d, e, or f
+'[bkp]%' -- any starting with b, k, or p
 ```
+
+* `-` - range
+* `[]` - any single character within brackets
 
 > _ - single character
 
 ```sql
 '_anyfollowedby'
+```
+
+* `'_ondon'` - any character followed by 'ondon'
+* `'L___on'` - start with L, followed by any 3 characters, ending with 'on'
+
+> COMBINED
+
+```sql
+'a__%' -- start with a, at least 3 characters in length
+'_r%' -- any with r in second position
 ```
 
 <!-- ----------------------------------------------------------------------- -->
@@ -560,3 +576,7 @@ DATE_SUB(date, INTERVAL <value> <unit>)
 | unit      | Required. The type of interval to add/subtract. Can be one of the following values:<li>MICROSECOND</li> <li>SECOND</li> <li>MINUTE</li> <li>HOUR</li> <li>DAY</li> <li>WEEK</li> <li>MONTH</li> <li>QUARTER</li> <li>YEAR</li> <li>SECOND_MICROSECOND</li> <li>MINUTE_MICROSECOND</li> <li>MINUTE_SECOND</li> <li>HOUR_MICROSECOND</li> <li>HOUR_SECOND</li> <li>HOUR_MINUTE</li> <li>DAY_MICROSECOND</li> <li>DAY_SECOND</li> <li>DAY_MINUTE</li> <li>DAY_HOUR</li> <li>YEAR_MONTH<li>                                                                               |
 
 -->
+
+<!-- ----------------------------------------------------------------------- -->
+
+## 🗃️ DATABASE
