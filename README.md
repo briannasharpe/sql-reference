@@ -184,13 +184,27 @@ ORDER BY
 LIMIT A OFFSET B; -- skip top B rows and fetch the next A
 ```
 
+<!-- https://www.datacamp.com/tutorial/sql-offset -->
+
 <!-- ----------------------------------------------------------------------- -->
 
 ### MISC
 
+1. [Common Table Expression (CTE)](#common-table-expression)
 1. [Operator](#operator) <br>
 2. [Expression](#expression) <br>
 3. [Wildcards](#wildcards) <br>
+
+#### COMMON TABLE EXPRESSION
+
+```sql
+WITH cte_name AS (
+    SELECT ...
+)
+
+SELECT *
+FROM cte_name;
+```
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -215,7 +229,7 @@ IS NULL
 IS NOT NULL
 ```
 
-* see [`ISNULL()`]()
+* see [`ISNULL()`](#null), [`IFNULL()`](#null)
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -311,6 +325,7 @@ END
 1. [📊 Aggregate Functions](#📊-aggregate-functions) <br>
 2. [Window Functions](#window-functions) <br>
 3. [Misc Functions](#2-join) <br>
+   &nbsp; • [Null](#null) <br>
    &nbsp; • [Conditional Branching](#conditional-branching) <br>
    &nbsp; • [Math](#math) <br>
    &nbsp; • [String](#string) <br>
@@ -424,6 +439,10 @@ SUM(...) OVER(...)
 ```
 
 ```sql
+COUNT(...) OVER(...)
+```
+
+```sql
 -- self join version
 SELECT *
 FROM a
@@ -444,6 +463,20 @@ SUM(...) OVER(RANGE BETWEEN INTERVAL <value> <unit> PRECEDING AND CURRENT ROW)
 
 ### MISC FUNCTIONS
 
+#### NULL
+
+```sql
+ISNULL(expression)
+```
+
+```sql
+IFNULL(expression, alt_value)
+```
+
+* `expression` - expression to test
+* `alt_value` - return value if expression is NULL
+
+
 #### CONDITIONAL BRANCHING
 
 ```sql
@@ -454,6 +487,10 @@ IF(condition, value_if_true, value_if_false)
 
 ```sql
 ROUND(number, decimal_value, )
+```
+
+```sql
+MOD(x, y) -- %
 ```
 
 #### STRING
