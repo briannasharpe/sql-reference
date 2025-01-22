@@ -69,6 +69,10 @@ SELECT * FROM a
 RIGHT JOIN b ON a.id = b.id
 ```
 
+```sql
+JOIN ... USING (column_of_same_name) -- instead of ON
+```
+
 <!-- ----------------------------------------------------------------------- -->
 
 ### 3. WHERE
@@ -111,9 +115,32 @@ WHERE ... NOT IN <SELECT statement>
 ```sql
 WHERE ... LIKE '<pattern>'
 WHERE ... NOT LIKE '<pattern>'
+
+-- regular expressions
+WHERE ... REGEXP '<pattern>'
 ```
 
 * see [WILDCARDS](#wildcards)
+
+<!-- 
+
+REGEXP_LIKE
+REGEXP_REPLACE
+REGEXP_SUBSTR
+
+https://dev.mysql.com/doc/refman/8.4/en/regexp.html
+
+NOT REGEXP	Negation of REGEXP
+REGEXP	Whether string matches regular expression
+REGEXP_INSTR()	Starting index of substring matching regular expression
+REGEXP_LIKE()	Whether string matches regular expression
+REGEXP_REPLACE()	Replace substrings matching regular expression
+REGEXP_SUBSTR()	Return substring matching regular expression
+RLIKE	Whether string matches regular expression
+
+https://dev.mysql.com/doc/refman/8.0/en/regexp.html#function_regexp-substr
+
+-->
 
 ```sql
 WHERE EXISTS <SELECT statement>
@@ -318,6 +345,19 @@ END
 '_r%' -- any with r in second position
 ```
 
+> REGULAR EXPRESSIONS (`REGEXP`)
+
+```sql
+'^[a-z]' -- start with a-z
+'[a-z]$' -- end with a-z
+'[a-z]*' -- any sequence of a-z
+```
+
+* `^` - match beginning of string
+* `$` - match end of string
+* `.` - matches any single character, including newlines
+* `*` - match any sequence of zero or more characters
+
 <!-- ----------------------------------------------------------------------- -->
 
 ## 🛠️ FUNCTIONS
@@ -506,6 +546,14 @@ CONCAT(string, string, ...)
 ```
 
 * add strings together
+
+```sql
+GROUP_CONCAT(column ORDER BY ... SEPARATOR separator_value) -- ORDER BY and SEPARATOR are optional
+GROUP_CONCAT(DISTINCT column ...)
+```
+
+* add values from multiple rows as a group
+* separator default is comma
 
 ```sql
 LOWER(string) -- lowercase
