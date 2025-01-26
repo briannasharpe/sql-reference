@@ -1,22 +1,22 @@
 # SQL Reference
 
-1. [🔍 Query](#🔍-query) <br>
-   &nbsp; • [Misc](#misc) <br>
+1. [📁 Query](#📁-query) <br>
+  &nbsp; • [📂 Misc](#📂-misc) <br>
 2. [🛠️ Functions](#🛠️-functions) <br>
-   &nbsp; • [📊 Aggregate Functions](#📊-aggregate-functions) <br>
-   &nbsp; • [Window Functions](#window-functions) <br>
-   &nbsp; • [Misc Functions](#misc-functions) <br>
+  &nbsp; • [📊 Aggregate Functions](#📊-aggregate-functions) <br>
+  &nbsp; • [🔍 Window Functions](#🔍-window-functions) <br>
+  &nbsp; • [🛠️ Misc Functions](#🛠️-misc-functions) <br>
 3. [🗃️ Database](#🗃️-database)
 
 <!-- ----------------------------------------------------------------------- -->
 
-## 🔍 QUERY
+## 📁 QUERY
 
 ```sql
 SELECT col1, AGG(col2), ...
 FROM table1 t1
 JOIN table2  t2
-    ON t1.id = t2.id
+  ON t1.id = t2.id
 WHERE <condition>
 GROUP BY ...
 HAVING <condition>
@@ -31,10 +31,11 @@ LIMIT <#>
 5. [Having](#5-having) <br>
 6. [Order By](#6-order-by) <br>
 7. [Limit](#7-limit)
-8. [Misc](#misc) <br>
-   &nbsp; • [Operator](#operator) <br>
-   &nbsp; • [Expression](#expression) <br>
-   &nbsp; • [Wildcards](#wildcards)
+8. [Misc](#📂-misc) <br>
+  &nbsp; • [Common Table Expression (CTE)](#common-table-expression) <br>
+  &nbsp; • [Operator](#operator) <br>
+  &nbsp; • [Expression](#expression) <br>
+  &nbsp; • [Wildcards](#wildcards)
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -198,9 +199,9 @@ ORDER BY ... NULLS FIRST; -- control sort order of NULLS
 
 ```sql
 ORDER BY 
-   CASE
-      WHEN ... THEN ...
-   END
+  CASE
+    WHEN ... THEN ...
+  END
 ```
 
 <!-- ----------------------------------------------------------------------- -->
@@ -215,7 +216,7 @@ LIMIT A OFFSET B; -- skip top B rows and fetch the next A
 
 <!-- ----------------------------------------------------------------------- -->
 
-### MISC
+### 📂 MISC
 
 1. [Common Table Expression (CTE)](#common-table-expression)
 2. [Operator](#operator) <br>
@@ -226,7 +227,7 @@ LIMIT A OFFSET B; -- skip top B rows and fetch the next A
 
 ```sql
 WITH cte_name AS (
-    SELECT ...
+  SELECT ...
 )
 
 SELECT *
@@ -256,7 +257,7 @@ IS NULL
 IS NOT NULL
 ```
 
-* see [`ISNULL()`](#null), [`IFNULL()`](#null)
+* see [`ISNULL()`](#⛔-null), [`IFNULL()`](#⛔-null)
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -265,18 +266,18 @@ IS NOT NULL
 > CASE
 
 * basically if/then logic
-* see function [`IF()`](#conditional-branching)
+* see function [`IF()`](#❔-conditional-branching)
 * no `ELSE` will act as an `ELSE NULL` clause
 
 ```sql
 CASE
-   ...
+  ...
 END AS '<alias>'
 ```
 
 ```sql
 CASE
-   ...
+  ...
 END
 ```
 
@@ -284,10 +285,10 @@ END
 
 ```sql
 CASE <expression>
-   WHEN 'value' THEN 'result'
-      ...
-   WHEN 'value' THEN 'result'
-   ELSE 'result'
+  WHEN 'value' THEN 'result'
+    ...
+  WHEN 'value' THEN 'result'
+  ELSE 'result'
 END
 ```
 
@@ -305,10 +306,16 @@ END
 
 ```sql
 CASE
-   WHEN <condition> THEN 'result'
-      ...
-   WHEN <condition> THEN 'result'
-   ELSE 'result'
+  WHEN <condition> THEN 'result'
+    ...
+  WHEN <condition> THEN 'result'
+  ELSE 'result'
+END
+```
+
+```sql
+CASE
+  WHEN <condition> IN ('value', 'value') THEN 'result'
 END
 ```
 
@@ -363,12 +370,12 @@ END
 ## 🛠️ FUNCTIONS
 
 1. [📊 Aggregate Functions](#📊-aggregate-functions) <br>
-2. [Window Functions](#window-functions) <br>
-3. [Misc Functions](#2-join) <br>
-   &nbsp; • [Null](#null) <br>
-   &nbsp; • [Conditional Branching](#conditional-branching) <br>
-   &nbsp; • [Math](#math) <br>
-   &nbsp; • [String](#string) <br>
+2. [🔍 Window Functions](#🔍-window-functions) <br>
+3. [🛠️ Misc Functions](#🛠️-misc-functions) <br>
+   &nbsp; • [⛔ Null](#⛔-null) <br>
+   &nbsp; • [❔ Conditional Branching](#❔-conditional-branching) <br>
+   &nbsp; • [📐 Math](#📐-math) <br>
+   &nbsp; • [💬 String](#💬-string) <br>
    &nbsp; • [📆 Date](#📆-date) <br>
 
 <!-- ----------------------------------------------------------------------- -->
@@ -382,7 +389,7 @@ SUM()
 * `SUM(<condition>)` - the count of rows where the condition is TRUE <br>
 * `SUM(CASE WHEN <condition> THEN col ELSE 0 END)` - sum of condition <!-- (see [`CASE`](#case)) --> (preferred)<br>
 * `SUM(<condition> * col)` - sum of condition <!-- ? --> (if condition is `NULL`, the row is ignored)
-* rolling total - see [WINDOW FUNCTIONS](#window-functions)
+* rolling total - see [WINDOW FUNCTIONS](#🔍-window-functions)
 
 ```sql
 AVG()
@@ -407,7 +414,7 @@ COUNT()
 
 <!-- ----------------------------------------------------------------------- -->
 
-### WINDOW FUNCTIONS
+### 🔍 WINDOW FUNCTIONS
 
 * calculations across a specified set of rows related to the current row (within a defined "window" of data)
 * does not alter the data set
@@ -487,7 +494,7 @@ COUNT(...) OVER(...)
 SELECT *
 FROM a
 JOIN b
-   ON a.id_column >= b.id_column
+  ON a.id_column >= b.id_column
 GROUP BY a.id_column
 HAVING SUM(value_column) <= <#>
 ```
@@ -501,9 +508,9 @@ SUM(...) OVER(RANGE BETWEEN INTERVAL <value> <unit> PRECEDING AND CURRENT ROW)
 
 <!-- ----------------------------------------------------------------------- -->
 
-### MISC FUNCTIONS
+### 🛠️ MISC FUNCTIONS
 
-#### NULL
+#### ⛔ NULL
 
 ```sql
 ISNULL(expression)
@@ -516,13 +523,13 @@ IFNULL(expression, alt_value)
 * `expression` - expression to test
 * `alt_value` - return value if expression is NULL
 
-#### CONDITIONAL BRANCHING
+#### ❔ CONDITIONAL BRANCHING
 
 ```sql
 IF(condition, value_if_true, value_if_false)
 ```
 
-#### MATH
+#### 📐 MATH
 
 ```sql
 ROUND(number, decimal_value, )
@@ -532,9 +539,7 @@ ROUND(number, decimal_value, )
 MOD(x, y) -- %
 ```
 
-#### STRING
-
-<!-- 🔤🔠💬 -->
+#### 💬 STRING
 
 ```sql
 LENGTH(string) -- in bytes
@@ -582,6 +587,26 @@ YEAR()
 ```
 
 ```sql
+EXTRACT(part FROM date_value)
+```
+
+> `EXTRACT` parameter values ([source](https://www.w3schools.com/sql/func_mysql_extract.asp))
+
+| Parameter  | Description                                                                                                              |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------ |
+| part       | Required. The part to extract. Can be one of the following:<li>MICROSECOND</li> <li>SECOND</li> <li>MINUTE</li> <li>HOUR</li> <li>DAY</li> <li>WEEK</li> <li>MONTH</li> <li>QUARTER</li> <li>YEAR</li> <li>SECOND_MICROSECOND</li> <li>MINUTE_MICROSECOND</li> <li>MINUTE_SECOND</li> <li>HOUR_MICROSECOND</li> <li>HOUR_SECOND</li> <li>HOUR_MINUTE</li> <li>DAY_MICROSECOND</li> <li>DAY_SECOND</li> <li>DAY_MINUTE</li> <li>DAY_HOUR</li> <li>YEAR_MONTH<li>                                   |
+| date_value | Required. The date to extract a part from                                                                                |
+
+<!-- ! EXTRACT() table
+
+| Parameter  | Description                                                                                                              |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------ |
+| part       | Required. The part to extract. Can be one of the following:<li>MICROSECOND</li> <li>SECOND</li> <li>MINUTE</li> <li>HOUR</li> <li>DAY</li> <li>WEEK</li> <li>MONTH</li> <li>QUARTER</li> <li>YEAR</li> <li>SECOND_MICROSECOND</li> <li>MINUTE_MICROSECOND</li> <li>MINUTE_SECOND</li> <li>HOUR_MICROSECOND</li> <li>HOUR_SECOND</li> <li>HOUR_MINUTE</li> <li>DAY_MICROSECOND</li> <li>DAY_SECOND</li> <li>DAY_MINUTE</li> <li>DAY_HOUR</li> <li>YEAR_MONTH<li>                                   |
+| date_value | Required. The date to extract a part from                                                                                |
+
+-->
+
+```sql
 DATEDIFF(date1, date2)
 ```
 
@@ -590,6 +615,7 @@ DATE_FORMAT(col, '<format>')
 ```
 
 > `DATE_FORMAT` parameter values ([source](https://www.w3schools.com/sql/func_mysql_date_format.asp))
+
 
 | Format | Description                                                                  |
 | ------ | ---------------------------------------------------------------------------- |
@@ -697,9 +723,9 @@ DROP DATABASE database_name
 
 ```sql
 CREATE TABLE table_name (
-   column1 datatype,
-   ...
-   column# datatype
+  column1 datatype,
+  ...
+  column# datatype
 )
 ```
 
@@ -708,7 +734,7 @@ CREATE TABLE table_name (
 | String data type            | Description                                                                                                                            |
 | --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | CHAR(size)                  | A FIXED length string (can contain letters, numbers, and special characters). The*size* parameter specifies the column length in characters - can be from 0 to 255. Default is 1                                                                                                                                            |
-| VARCHAR(size)               | A VARIABLE length string (can contain letters, numbers, and special characters). The*size* parameter specifies the maximum string length in characters - can be from 0 to 65535                                                                                                                                                 |
+| VARCHAR(size)               | A VARIABLE length string (can contain letters, numbers, and special characters). The*size* parameter specifies the maximum string length in characters - can be from 0 to 65535                                                                                                                                               |
 | BINARY(size)                | Equal to CHAR(), but stores binary byte strings. The*size* parameter specifies the column length in bytes. Default is 1                |
 | VARBINARY(size)             | Equal to VARCHAR(), but stores binary byte strings. The*size* parameter specifies the maximum column length in                         |
 | TINYBLOB                    | For BLOBs (Binary Large Objects). Max length: 255 bytes                                                                                |
@@ -727,7 +753,7 @@ CREATE TABLE table_name (
 | String data type            | Description                                                                                                                            |
 | --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | CHAR(size)                  | A FIXED length string (can contain letters, numbers, and special characters). The*size* parameter specifies the column length in characters - can be from 0 to 255. Default is 1                                                                                                                                            |
-| VARCHAR(size)               | A VARIABLE length string (can contain letters, numbers, and special characters). The*size* parameter specifies the maximum string length in characters - can be from 0 to 65535                                                                                                                                                 |
+| VARCHAR(size)               | A VARIABLE length string (can contain letters, numbers, and special characters). The*size* parameter specifies the maximum string length in characters - can be from 0 to 65535                                                                                                                                               |
 | BINARY(size)                | Equal to CHAR(), but stores binary byte strings. The*size* parameter specifies the column length in bytes. Default is 1                |
 | VARBINARY(size)             | Equal to VARCHAR(), but stores binary byte strings. The*size* parameter specifies the maximum column length in                         |
 | TINYBLOB                    | For BLOBs (Binary Large Objects). Max length: 255 bytes                                                                                |
@@ -750,15 +776,15 @@ CREATE TABLE table_name (
 | BOOL                            | Zero is considered as false, nonzero values are considered as true.                                                                    |
 | BOOLEAN                         | Equal to BOOL                                                                                                                          |
 | SMALLINT(*size* )               | A small integer. Signed range is from -32768 to 32767. Unsigned range is from 0 to 65535. The*size* parameter specifies the maximum display width (which is 255)                                                                                                                                                             |
-| MEDIUMINT(*size* )              | A medium integer. Signed range is from -8388608 to 8388607. Unsigned range is from 0 to 16777215. The*size* parameter specifies the maximum display width (which is 255)                                                                                                                                                       |
-| INT(*size* )                    | A medium integer. Signed range is from -2147483648 to 2147483647. Unsigned range is from 0 to 4294967295. The*size* parameter specifies the maximum display width (which is 255)                                                                                                                                               |
+| MEDIUMINT(*size* )              | A medium integer. Signed range is from -8388608 to 8388607. Unsigned range is from 0 to 16777215. The*size* parameter specifies the maximum display width (which is 255)                                                                                                                                               |
+| INT(*size* )                    | A medium integer. Signed range is from -2147483648 to 2147483647. Unsigned range is from 0 to 4294967295. The*size* parameter specifies the maximum display width (which is 255)                                                                                                                                       |
 | INTEGER(*size* )                | Equal to INT(size)                                                                                                                     |
 | BIGINT(*size* )                 | A large integer. Signed range is from -9223372036854775808 to 9223372036854775807. Unsigned range is from 0 to 18446744073709551615. The*size* parameter specifies the maximum display width (which is 255)                                                                                                               |
 | FLOAT(*size* , *d* )            | A floating point number. The total number of digits is specified in*size* . The number of digits after the decimal point is specified in the *d* parameter. This syntax is deprecated in MySQL 8.0.17, and it will be removed in future MySQL versions                                                                      |
 | FLOAT(*p* )                     | A floating point number. MySQL uses the*p* value to determine whether to use FLOAT or DOUBLE for the resulting data type. If *p* is from 0 to 24, the data type becomes FLOAT(). If *p* is from 25 to 53, the data type becomes DOUBLE()                                                                                     |
-| DOUBLE(*size* , *d* )           | A normal-size floating point number. The total number of digits is specified in*size* . The number of digits after the decimal point is specified in the *d* parameter                                                                                                                                                          |
+| DOUBLE(*size* , *d* )           | A normal-size floating point number. The total number of digits is specified in*size* . The number of digits after the decimal point is specified in the *d* parameter                                                                                                                                                       |
 | DOUBLE PRECISION(*size* , *d* ) |                                                                                                                                        |
-| DECIMAL(*size* , *d* )          | An exact fixed-point number. The total number of digits is specified in*size* . The number of digits after the decimal point is specified in the *d* parameter. The maximum number for *size* is 65. The maximum number for *d* is 30. The default value for *size* is 10. The default value for *d* is 0.                      |
+| DECIMAL(*size* , *d* )          | An exact fixed-point number. The total number of digits is specified in*size* . The number of digits after the decimal point is specified in the *d* parameter. The maximum number for *size* is 65. The maximum number for *d* is 30. The default value for *size* is 10. The default value for *d* is 0.                  |
 | DEC(*size* , *d* )              | Equal to DECIMAL(size,d)                                                                                                               |
 
 <!-- ! numeric data type table
@@ -770,15 +796,15 @@ CREATE TABLE table_name (
 | BOOL                            | Zero is considered as false, nonzero values are considered as true.                                                                    |
 | BOOLEAN                         | Equal to BOOL                                                                                                                          |
 | SMALLINT(*size* )               | A small integer. Signed range is from -32768 to 32767. Unsigned range is from 0 to 65535. The*size* parameter specifies the maximum display width (which is 255)                                                                                                                                                             |
-| MEDIUMINT(*size* )              | A medium integer. Signed range is from -8388608 to 8388607. Unsigned range is from 0 to 16777215. The*size* parameter specifies the maximum display width (which is 255)                                                                                                                                                       |
-| INT(*size* )                    | A medium integer. Signed range is from -2147483648 to 2147483647. Unsigned range is from 0 to 4294967295. The*size* parameter specifies the maximum display width (which is 255)                                                                                                                                               |
+| MEDIUMINT(*size* )              | A medium integer. Signed range is from -8388608 to 8388607. Unsigned range is from 0 to 16777215. The*size* parameter specifies the maximum display width (which is 255)                                                                                                                                               |
+| INT(*size* )                    | A medium integer. Signed range is from -2147483648 to 2147483647. Unsigned range is from 0 to 4294967295. The*size* parameter specifies the maximum display width (which is 255)                                                                                                                                       |
 | INTEGER(*size* )                | Equal to INT(size)                                                                                                                     |
 | BIGINT(*size* )                 | A large integer. Signed range is from -9223372036854775808 to 9223372036854775807. Unsigned range is from 0 to 18446744073709551615. The*size* parameter specifies the maximum display width (which is 255)                                                                                                               |
 | FLOAT(*size* , *d* )            | A floating point number. The total number of digits is specified in*size* . The number of digits after the decimal point is specified in the *d* parameter. This syntax is deprecated in MySQL 8.0.17, and it will be removed in future MySQL versions                                                                      |
 | FLOAT(*p* )                     | A floating point number. MySQL uses the*p* value to determine whether to use FLOAT or DOUBLE for the resulting data type. If *p* is from 0 to 24, the data type becomes FLOAT(). If *p* is from 25 to 53, the data type becomes DOUBLE()                                                                                     |
-| DOUBLE(*size* , *d* )           | A normal-size floating point number. The total number of digits is specified in*size* . The number of digits after the decimal point is specified in the *d* parameter                                                                                                                                                          |
+| DOUBLE(*size* , *d* )           | A normal-size floating point number. The total number of digits is specified in*size* . The number of digits after the decimal point is specified in the *d* parameter                                                                                                                                                       |
 | DOUBLE PRECISION(*size* , *d* ) |                                                                                                                                        |
-| DECIMAL(*size* , *d* )          | An exact fixed-point number. The total number of digits is specified in*size* . The number of digits after the decimal point is specified in the *d* parameter. The maximum number for *size* is 65. The maximum number for *d* is 30. The default value for *size* is 10. The default value for *d* is 0.                      |
+| DECIMAL(*size* , *d* )          | An exact fixed-point number. The total number of digits is specified in*size* . The number of digits after the decimal point is specified in the *d* parameter. The maximum number for *size* is 65. The maximum number for *d* is 30. The default value for *size* is 10. The default value for *d* is 0.                  |
 | DEC(*size* , *d* )              | Equal to DECIMAL(size,d)                                                                                                               |
 
 -->
