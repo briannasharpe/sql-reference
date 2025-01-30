@@ -1,16 +1,26 @@
 # SQL Reference
 
-1. [📁 Query](#📁-query) <br>
-  &nbsp; • [📂 Misc](#📂-misc) <br>
-2. [🛠️ Functions](#🛠️-functions) <br>
-  &nbsp; • [📊 Aggregate Functions](#📊-aggregate-functions) <br>
-  &nbsp; • [🔍 Window Functions](#🔍-window-functions) <br>
-  &nbsp; • [🛠️ Misc Functions](#🛠️-misc-functions) <br>
-3. [🗃️ Database](#🗃️-database)
+1. [📁 Query](#query) <br>
+  • [📂 Misc](#misc) <br>
+  &nbsp; ∘ [Common Table Expression (CTE)](#common-table-expression) <br>
+  &nbsp; ∘ [Operator](#operator) <br>
+  &nbsp; ∘ [Expression](#expression) <br>
+  &nbsp; ∘ [Wildcards](#wildcards) <br>
+2. [🛠️ Functions](#functions) <br>
+  • [📊 Aggregate Functions](#aggregate-functions) <br>
+  • [🔍 Window Functions](#window-functions) <br>
+  • [🛠️ Misc Functions](#misc-functions) <br>
+    &nbsp; ∘ [⛔ Null](#null) <br>
+    &nbsp; ∘ [❔ Conditional Branching](#conditional-branching) <br>
+    &nbsp; ∘ [📐 Math](#math) <br>
+    &nbsp; ∘ [💬 String](#string) <br>
+    &nbsp; ∘ [📆 Date](#date) <br>
+3. [🗃️ Database](#database)
+<!-- 4. [MySQL Workbench](#mysql-workbench) -->
 
 <!-- ----------------------------------------------------------------------- -->
 
-## 📁 QUERY
+## QUERY
 
 ```sql
 SELECT col1, AGG(col2), ...
@@ -31,11 +41,11 @@ LIMIT <#>
 5. [Having](#5-having) <br>
 6. [Order By](#6-order-by) <br>
 7. [Limit](#7-limit)
-8. [Misc](#📂-misc) <br>
-  &nbsp; • [Common Table Expression (CTE)](#common-table-expression) <br>
-  &nbsp; • [Operator](#operator) <br>
-  &nbsp; • [Expression](#expression) <br>
-  &nbsp; • [Wildcards](#wildcards)
+8. [Misc](#misc) <br>
+  • [Common Table Expression (CTE)](#common-table-expression) <br>
+  • [Operator](#operator) <br>
+  • [Expression](#expression) <br>
+  • [Wildcards](#wildcards)
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -216,7 +226,7 @@ LIMIT A OFFSET B; -- skip top B rows and fetch the next A
 
 <!-- ----------------------------------------------------------------------- -->
 
-### 📂 MISC
+### MISC
 
 1. [Common Table Expression (CTE)](#common-table-expression)
 2. [Operator](#operator) <br>
@@ -257,7 +267,7 @@ IS NULL
 IS NOT NULL
 ```
 
-* see [`ISNULL()`](#⛔-null), [`IFNULL()`](#⛔-null)
+* see [`ISNULL()`](#null), [`IFNULL()`](#null)
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -266,7 +276,7 @@ IS NOT NULL
 > CASE
 
 * basically if/then logic
-* see function [`IF()`](#❔-conditional-branching)
+* see function [`IF()`](#conditional-branching)
 * no `ELSE` will act as an `ELSE NULL` clause
 
 ```sql
@@ -367,20 +377,20 @@ END
 
 <!-- ----------------------------------------------------------------------- -->
 
-## 🛠️ FUNCTIONS
+## FUNCTIONS
 
-1. [📊 Aggregate Functions](#📊-aggregate-functions) <br>
-2. [🔍 Window Functions](#🔍-window-functions) <br>
-3. [🛠️ Misc Functions](#🛠️-misc-functions) <br>
-   &nbsp; • [⛔ Null](#⛔-null) <br>
-   &nbsp; • [❔ Conditional Branching](#❔-conditional-branching) <br>
-   &nbsp; • [📐 Math](#📐-math) <br>
-   &nbsp; • [💬 String](#💬-string) <br>
-   &nbsp; • [📆 Date](#📆-date) <br>
+1. [📊 Aggregate Functions](#aggregate-functions) <br>
+2. [🔍 Window Functions](#window-functions) <br>
+3. [🛠️ Misc Functions](#misc-functions) <br>
+  • [⛔ Null](#null) <br>
+  • [❔ Conditional Branching](#conditional-branching) <br>
+  • [📐 Math](#math) <br>
+  • [💬 String](#string) <br>
+  • [📆 Date](#date) <br>
 
 <!-- ----------------------------------------------------------------------- -->
 
-### 📊 AGGREGATE FUNCTIONS
+### AGGREGATE FUNCTIONS
 
 ```sql
 SUM()
@@ -389,7 +399,7 @@ SUM()
 * `SUM(<condition>)` - the count of rows where the condition is TRUE <br>
 * `SUM(CASE WHEN <condition> THEN col ELSE 0 END)` - sum of condition <!-- (see [`CASE`](#case)) --> (preferred)<br>
 * `SUM(<condition> * col)` - sum of condition <!-- ? --> (if condition is `NULL`, the row is ignored)
-* rolling total - see [WINDOW FUNCTIONS](#🔍-window-functions)
+* rolling total - see [WINDOW FUNCTIONS](#window-functions)
 
 ```sql
 AVG()
@@ -414,7 +424,7 @@ COUNT()
 
 <!-- ----------------------------------------------------------------------- -->
 
-### 🔍 WINDOW FUNCTIONS
+### WINDOW FUNCTIONS
 
 * calculations across a specified set of rows related to the current row (within a defined "window" of data)
 * does not alter the data set
@@ -504,13 +514,13 @@ HAVING SUM(value_column) <= <#>
 SUM(...) OVER(RANGE BETWEEN INTERVAL <value> <unit> PRECEDING AND CURRENT ROW)
 ```
 
-* see [`DATE_ADD` and `DATE_SUB` parameter values](#📆-date)
+* see [`DATE_ADD` and `DATE_SUB` parameter values](#date)
 
 <!-- ----------------------------------------------------------------------- -->
 
-### 🛠️ MISC FUNCTIONS
+### MISC FUNCTIONS
 
-#### ⛔ NULL
+#### NULL
 
 ```sql
 ISNULL(expression)
@@ -523,13 +533,13 @@ IFNULL(expression, alt_value)
 * `expression` - expression to test
 * `alt_value` - return value if expression is NULL
 
-#### ❔ CONDITIONAL BRANCHING
+#### CONDITIONAL BRANCHING
 
 ```sql
 IF(condition, value_if_true, value_if_false)
 ```
 
-#### 📐 MATH
+#### MATH
 
 ```sql
 ROUND(number, decimal_value, )
@@ -539,7 +549,7 @@ ROUND(number, decimal_value, )
 MOD(x, y) -- %
 ```
 
-#### 💬 STRING
+#### STRING
 
 ```sql
 LENGTH(string) -- in bytes
@@ -578,7 +588,7 @@ SUBSTRING(string, start, length) -- length is optional, returns whole string if 
 
 * `start` at position #, extract `length` characters
 
-#### 📆 DATE
+#### DATE
 
 ```sql
 DAY()
@@ -594,14 +604,14 @@ EXTRACT(part FROM date_value)
 
 | Parameter  | Description                                                                                                              |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------ |
-| part       | Required. The part to extract. Can be one of the following:<li>MICROSECOND</li> <li>SECOND</li> <li>MINUTE</li> <li>HOUR</li> <li>DAY</li> <li>WEEK</li> <li>MONTH</li> <li>QUARTER</li> <li>YEAR</li> <li>SECOND_MICROSECOND</li> <li>MINUTE_MICROSECOND</li> <li>MINUTE_SECOND</li> <li>HOUR_MICROSECOND</li> <li>HOUR_SECOND</li> <li>HOUR_MINUTE</li> <li>DAY_MICROSECOND</li> <li>DAY_SECOND</li> <li>DAY_MINUTE</li> <li>DAY_HOUR</li> <li>YEAR_MONTH<li>                                   |
+| part       | Required. The part to extract. Can be one of the following:<li>MICROSECOND</li> <li>SECOND</li> <li>MINUTE</li> <li>HOUR</li> <li>DAY</li> <li>WEEK</li> <li>MONTH</li> <li>QUARTER</li> <li>YEAR</li> <li>SECOND_MICROSECOND</li> <li>MINUTE_MICROSECOND</li> <li>MINUTE_SECOND</li> <li>HOUR_MICROSECOND</li> <li>HOUR_SECOND</li> <li>HOUR_MINUTE</li> <li>DAY_MICROSECOND</li> <li>DAY_SECOND</li> <li>DAY_MINUTE</li> <li>DAY_HOUR</li> <li>YEAR_MONTH</li>                                                                                                   |
 | date_value | Required. The date to extract a part from                                                                                |
 
 <!-- ! EXTRACT() table
 
 | Parameter  | Description                                                                                                              |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------ |
-| part       | Required. The part to extract. Can be one of the following:<li>MICROSECOND</li> <li>SECOND</li> <li>MINUTE</li> <li>HOUR</li> <li>DAY</li> <li>WEEK</li> <li>MONTH</li> <li>QUARTER</li> <li>YEAR</li> <li>SECOND_MICROSECOND</li> <li>MINUTE_MICROSECOND</li> <li>MINUTE_SECOND</li> <li>HOUR_MICROSECOND</li> <li>HOUR_SECOND</li> <li>HOUR_MINUTE</li> <li>DAY_MICROSECOND</li> <li>DAY_SECOND</li> <li>DAY_MINUTE</li> <li>DAY_HOUR</li> <li>YEAR_MONTH<li>                                   |
+| part       | Required. The part to extract. Can be one of the following:<li>MICROSECOND</li> <li>SECOND</li> <li>MINUTE</li> <li>HOUR</li> <li>DAY</li> <li>WEEK</li> <li>MONTH</li> <li>QUARTER</li> <li>YEAR</li> <li>SECOND_MICROSECOND</li> <li>MINUTE_MICROSECOND</li> <li>MINUTE_SECOND</li> <li>HOUR_MICROSECOND</li> <li>HOUR_SECOND</li> <li>HOUR_MINUTE</li> <li>DAY_MICROSECOND</li> <li>DAY_SECOND</li> <li>DAY_MINUTE</li> <li>DAY_HOUR</li> <li>YEAR_MONTH</li>                                                                                                   |
 | date_value | Required. The date to extract a part from                                                                                |
 
 -->
@@ -615,7 +625,6 @@ DATE_FORMAT(col, '<format>')
 ```
 
 > `DATE_FORMAT` parameter values ([source](https://www.w3schools.com/sql/func_mysql_date_format.asp))
-
 
 | Format | Description                                                                  |
 | ------ | ---------------------------------------------------------------------------- |
@@ -700,7 +709,7 @@ DATE_SUB(date, INTERVAL <value> <unit>)
 | --------- | ------------------------------------------------------------------------------------------------------------------------ |
 | date      | Required. The date to be modified                                                                                        |
 | value     | Required. The value of the time/date interval to add/subtract. Both positive and negative values are allowed             |
-| unit      | Required. The type of interval to add/subtract. Can be one of the following values:<li>MICROSECOND</li> <li>SECOND</li> <li>MINUTE</li> <li>HOUR</li> <li>DAY</li> <li>WEEK</li> <li>MONTH</li> <li>QUARTER</li> <li>YEAR</li> <li>SECOND_MICROSECOND</li> <li>MINUTE_MICROSECOND</li> <li>MINUTE_SECOND</li> <li>HOUR_MICROSECOND</li> <li>HOUR_SECOND</li> <li>HOUR_MINUTE</li> <li>DAY_MICROSECOND</li> <li>DAY_SECOND</li> <li>DAY_MINUTE</li> <li>DAY_HOUR</li> <li>YEAR_MONTH<li>                                                                                                                     |
+| unit      | Required. The type of interval to add/subtract. Can be one of the following values:<li>MICROSECOND</li> <li>SECOND</li> <li>MINUTE</li> <li>HOUR</li> <li>DAY</li> <li>WEEK</li> <li>MONTH</li> <li>QUARTER</li> <li>YEAR</li> <li>SECOND_MICROSECOND</li> <li>MINUTE_MICROSECOND</li> <li>MINUTE_SECOND</li> <li>HOUR_MICROSECOND</li> <li>HOUR_SECOND</li> <li>HOUR_MINUTE</li> <li>DAY_MICROSECOND</li> <li>DAY_SECOND</li> <li>DAY_MINUTE</li> <li>DAY_HOUR</li> <li>YEAR_MONTH<li>                                                           |
 
 <!-- ! DATE_ADD / DATE_SUB table
 
@@ -708,13 +717,13 @@ DATE_SUB(date, INTERVAL <value> <unit>)
 | --------- | ------------------------------------------------------------------------------------------------------------------------ |
 | date      | Required. The date to be modified                                                                                        |
 | value     | Required. The value of the time/date interval to add/subtract. Both positive and negative values are allowed             |
-| unit      | Required. The type of interval to add/subtract. Can be one of the following values:<li>MICROSECOND</li> <li>SECOND</li> <li>MINUTE</li> <li>HOUR</li> <li>DAY</li> <li>WEEK</li> <li>MONTH</li> <li>QUARTER</li> <li>YEAR</li> <li>SECOND_MICROSECOND</li> <li>MINUTE_MICROSECOND</li> <li>MINUTE_SECOND</li> <li>HOUR_MICROSECOND</li> <li>HOUR_SECOND</li> <li>HOUR_MINUTE</li> <li>DAY_MICROSECOND</li> <li>DAY_SECOND</li> <li>DAY_MINUTE</li> <li>DAY_HOUR</li> <li>YEAR_MONTH<li>                                                                                                                     |
+| unit      | Required. The type of interval to add/subtract. Can be one of the following values:<li>MICROSECOND</li> <li>SECOND</li> <li>MINUTE</li> <li>HOUR</li> <li>DAY</li> <li>WEEK</li> <li>MONTH</li> <li>QUARTER</li> <li>YEAR</li> <li>SECOND_MICROSECOND</li> <li>MINUTE_MICROSECOND</li> <li>MINUTE_SECOND</li> <li>HOUR_MICROSECOND</li> <li>HOUR_SECOND</li> <li>HOUR_MINUTE</li> <li>DAY_MICROSECOND</li> <li>DAY_SECOND</li> <li>DAY_MINUTE</li> <li>DAY_HOUR</li> <li>YEAR_MONTH<li>                                                           |
 
 -->
 
 <!-- ----------------------------------------------------------------------- -->
 
-## 🗃️ DATABASE
+## DATABASE
 
 ```sql
 CREATE DATABASE database_name
@@ -729,92 +738,96 @@ CREATE TABLE table_name (
 )
 ```
 
-> data type parameter values ([source](https://www.w3schools.com/sql/sql_datatypes.asp))
+> string data type parameter values ([source](https://www.w3schools.com/sql/sql_datatypes.asp))
 
-| String data type            | Description                                                                                                                            |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| CHAR(size)                  | A FIXED length string (can contain letters, numbers, and special characters). The*size* parameter specifies the column length in characters - can be from 0 to 255. Default is 1                                                                                                                                            |
-| VARCHAR(size)               | A VARIABLE length string (can contain letters, numbers, and special characters). The*size* parameter specifies the maximum string length in characters - can be from 0 to 65535                                                                                                                                               |
-| BINARY(size)                | Equal to CHAR(), but stores binary byte strings. The*size* parameter specifies the column length in bytes. Default is 1                |
-| VARBINARY(size)             | Equal to VARCHAR(), but stores binary byte strings. The*size* parameter specifies the maximum column length in                         |
-| TINYBLOB                    | For BLOBs (Binary Large Objects). Max length: 255 bytes                                                                                |
-| TINYTEXT                    | Holds a string with a maximum length of 255 characters                                                                                 |
-| TEXT(size)                  | Holds a string with a maximum length of 65,535 bytes                                                                                   |
-| BLOB(size)                  | For BLOBs (Binary Large Objects). Holds up to 65,535 bytes of data                                                                     |
-| MEDIUMTEXT                  | Holds a string with a maximum length of 16,777,215 characters                                                                          |
-| MEDIUMBLOB                  | For BLOBs (Binary Large Objects). Holds up to 16,777,215 bytes of data                                                                 |
-| LONGTEXT                    | Holds a string with a maximum length of 4,294,967,295 characters                                                                       |
-| LONGBLOB                    | For BLOBs (Binary Large Objects). Holds up to 4,294,967,295 bytes of data                                                              |
-| ENUM(val1, val2, val3, ...) | A string object that can have only one value, chosen from a list of possible values. You can list up to 65535 values in an ENUM list. If a value is inserted that is not in the list, a blank value will be inserted. The values are sorted in the order you enter them                                                    |
-| SET(val1, val2, val3, ...)  | A string object that can have 0 or more values, chosen from a list of possible values. You can list up to 64 values in a SET list      |
+| String data type            | Description                                                                                                                                                                        |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CHAR(size)                  | A FIXED length string (can contain letters, numbers, and special characters). The *size* parameter specifies the column length in characters - can be from 0 to 255. Default is 1  |
+| VARCHAR(size)               | A VARIABLE length string (can contain letters, numbers, and special characters). The *size* parameter specifies the maximum string length in characters - can be from 0 to 65535   |
+| BINARY(size)                | Equal to CHAR(), but stores binary byte strings. The *size* parameter specifies the column length in bytes. Default is 1                                                           |
+| VARBINARY(size)             | Equal to VARCHAR(), but stores binary byte strings. The *size* parameter specifies the maximum column length in                                                                    |
+| TINYBLOB                    | For BLOBs (Binary Large Objects). Max length: 255 bytes                                                                                                                            |
+| TINYTEXT                    | Holds a string with a maximum length of 255 characters                                                                                                                             |
+| TEXT(size)                  | Holds a string with a maximum length of 65,535 bytes                                                                                                                               |
+| BLOB(size)                  | For BLOBs (Binary Large Objects). Holds up to 65,535 bytes of data                                                                                                                 |
+| MEDIUMTEXT                  | Holds a string with a maximum length of 16,777,215 characters                                                                                                                      |
+| MEDIUMBLOB                  | For BLOBs (Binary Large Objects). Holds up to 16,777,215 bytes of data                                                                                                             |
+| LONGTEXT                    | Holds a string with a maximum length of 4,294,967,295 characters                                                                                                                   |
+| LONGBLOB                    | For BLOBs (Binary Large Objects). Holds up to 4,294,967,295 bytes of data                                                                                                          |
+| ENUM(val1, val2, val3, ...) | A string object that can have only one value, chosen from a list of possible values. You can list up to 65535 values in an ENUM list. If a value is inserted that is not in the list, a blank value will be inserted. The values are sorted in the order you enter them                                                                                                                                    |
+| SET(val1, val2, val3, ...)  | A string object that can have 0 or more values, chosen from a list of possible values. You can list up to 64 values in a SET list                                                  |
 
 <!-- ! string data type table
 
-| String data type            | Description                                                                                                                            |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| CHAR(size)                  | A FIXED length string (can contain letters, numbers, and special characters). The*size* parameter specifies the column length in characters - can be from 0 to 255. Default is 1                                                                                                                                            |
-| VARCHAR(size)               | A VARIABLE length string (can contain letters, numbers, and special characters). The*size* parameter specifies the maximum string length in characters - can be from 0 to 65535                                                                                                                                               |
-| BINARY(size)                | Equal to CHAR(), but stores binary byte strings. The*size* parameter specifies the column length in bytes. Default is 1                |
-| VARBINARY(size)             | Equal to VARCHAR(), but stores binary byte strings. The*size* parameter specifies the maximum column length in                         |
-| TINYBLOB                    | For BLOBs (Binary Large Objects). Max length: 255 bytes                                                                                |
-| TINYTEXT                    | Holds a string with a maximum length of 255 characters                                                                                 |
-| TEXT(size)                  | Holds a string with a maximum length of 65,535 bytes                                                                                   |
-| BLOB(size)                  | For BLOBs (Binary Large Objects). Holds up to 65,535 bytes of data                                                                     |
-| MEDIUMTEXT                  | Holds a string with a maximum length of 16,777,215 characters                                                                          |
-| MEDIUMBLOB                  | For BLOBs (Binary Large Objects). Holds up to 16,777,215 bytes of data                                                                 |
-| LONGTEXT                    | Holds a string with a maximum length of 4,294,967,295 characters                                                                       |
-| LONGBLOB                    | For BLOBs (Binary Large Objects). Holds up to 4,294,967,295 bytes of data                                                              |
-| ENUM(val1, val2, val3, ...) | A string object that can have only one value, chosen from a list of possible values. You can list up to 65535 values in an ENUM list. If a value is inserted that is not in the list, a blank value will be inserted. The values are sorted in the order you enter them                                                    |
-| SET(val1, val2, val3, ...)  | A string object that can have 0 or more values, chosen from a list of possible values. You can list up to 64 values in a SET list      |
+| String data type            | Description                                                                                                                                                                        |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CHAR(size)                  | A FIXED length string (can contain letters, numbers, and special characters). The *size* parameter specifies the column length in characters - can be from 0 to 255. Default is 1  |
+| VARCHAR(size)               | A VARIABLE length string (can contain letters, numbers, and special characters). The *size* parameter specifies the maximum string length in characters - can be from 0 to 65535   |
+| BINARY(size)                | Equal to CHAR(), but stores binary byte strings. The *size* parameter specifies the column length in bytes. Default is 1                                                           |
+| VARBINARY(size)             | Equal to VARCHAR(), but stores binary byte strings. The *size* parameter specifies the maximum column length in                                                                    |
+| TINYBLOB                    | For BLOBs (Binary Large Objects). Max length: 255 bytes                                                                                                                            |
+| TINYTEXT                    | Holds a string with a maximum length of 255 characters                                                                                                                             |
+| TEXT(size)                  | Holds a string with a maximum length of 65,535 bytes                                                                                                                               |
+| BLOB(size)                  | For BLOBs (Binary Large Objects). Holds up to 65,535 bytes of data                                                                                                                 |
+| MEDIUMTEXT                  | Holds a string with a maximum length of 16,777,215 characters                                                                                                                      |
+| MEDIUMBLOB                  | For BLOBs (Binary Large Objects). Holds up to 16,777,215 bytes of data                                                                                                             |
+| LONGTEXT                    | Holds a string with a maximum length of 4,294,967,295 characters                                                                                                                   |
+| LONGBLOB                    | For BLOBs (Binary Large Objects). Holds up to 4,294,967,295 bytes of data                                                                                                          |
+| ENUM(val1, val2, val3, ...) | A string object that can have only one value, chosen from a list of possible values. You can list up to 65535 values in an ENUM list. If a value is inserted that is not in the list, a blank value will be inserted. The values are sorted in the order you enter them                                                                                                                                    |
+| SET(val1, val2, val3, ...)  | A string object that can have 0 or more values, chosen from a list of possible values. You can list up to 64 values in a SET list                                                  |
 
 -->
 
-| Numeric Data Type               | Description                                                                                                                            |
-| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| BIT(*size* )                    | A bit-value type. The number of bits per value is specified in*size* . The *size* parameter can hold a value from 1 to 64. The default value for *size* is 1.                                                                                                                                                               |
-| TINYINT(*size* )                | A very small integer. Signed range is from -128 to 127. Unsigned range is from 0 to 255. The*size* parameter specifies the maximum display width (which is 255)                                                                                                                                                             |
-| BOOL                            | Zero is considered as false, nonzero values are considered as true.                                                                    |
-| BOOLEAN                         | Equal to BOOL                                                                                                                          |
-| SMALLINT(*size* )               | A small integer. Signed range is from -32768 to 32767. Unsigned range is from 0 to 65535. The*size* parameter specifies the maximum display width (which is 255)                                                                                                                                                             |
-| MEDIUMINT(*size* )              | A medium integer. Signed range is from -8388608 to 8388607. Unsigned range is from 0 to 16777215. The*size* parameter specifies the maximum display width (which is 255)                                                                                                                                               |
-| INT(*size* )                    | A medium integer. Signed range is from -2147483648 to 2147483647. Unsigned range is from 0 to 4294967295. The*size* parameter specifies the maximum display width (which is 255)                                                                                                                                       |
-| INTEGER(*size* )                | Equal to INT(size)                                                                                                                     |
-| BIGINT(*size* )                 | A large integer. Signed range is from -9223372036854775808 to 9223372036854775807. Unsigned range is from 0 to 18446744073709551615. The*size* parameter specifies the maximum display width (which is 255)                                                                                                               |
-| FLOAT(*size* , *d* )            | A floating point number. The total number of digits is specified in*size* . The number of digits after the decimal point is specified in the *d* parameter. This syntax is deprecated in MySQL 8.0.17, and it will be removed in future MySQL versions                                                                      |
-| FLOAT(*p* )                     | A floating point number. MySQL uses the*p* value to determine whether to use FLOAT or DOUBLE for the resulting data type. If *p* is from 0 to 24, the data type becomes FLOAT(). If *p* is from 25 to 53, the data type becomes DOUBLE()                                                                                     |
-| DOUBLE(*size* , *d* )           | A normal-size floating point number. The total number of digits is specified in*size* . The number of digits after the decimal point is specified in the *d* parameter                                                                                                                                                       |
-| DOUBLE PRECISION(*size* , *d* ) |                                                                                                                                        |
-| DECIMAL(*size* , *d* )          | An exact fixed-point number. The total number of digits is specified in*size* . The number of digits after the decimal point is specified in the *d* parameter. The maximum number for *size* is 65. The maximum number for *d* is 30. The default value for *size* is 10. The default value for *d* is 0.                  |
-| DEC(*size* , *d* )              | Equal to DECIMAL(size,d)                                                                                                               |
+> numeric data type parameter values ([source](https://www.w3schools.com/sql/sql_datatypes.asp))
+
+| Numeric Data Type         | Description                                                                                                                                                                         |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| BIT(size)                 | A bit-value type. The number of bits per value is specified in*size* . The *size* parameter can hold a value from 1 to 64. The default value for *size* is 1.                       |
+| TINYINT(size)             | A very small integer. Signed range is from -128 to 127. Unsigned range is from 0 to 255. The *size* parameter specifies the maximum display width (which is 255)                    |
+| BOOL                      | Zero is considered as false, nonzero values are considered as true.                                                                                                                 |
+| BOOLEAN                   | Equal to BOOL                                                                                                                                                                       |
+| SMALLINT(size)            | A small integer. Signed range is from -32768 to 32767. Unsigned range is from 0 to 65535. The *size* parameter specifies the maximum display width (which is 255)                   |
+| MEDIUMINT(size)           | A medium integer. Signed range is from -8388608 to 8388607. Unsigned range is from 0 to 16777215. The *size* parameter specifies the maximum display width (which is 255)           |
+| INT(size)                 | A medium integer. Signed range is from -2147483648 to 2147483647. Unsigned range is from 0 to 4294967295. The *size* parameter specifies the maximum display width (which is 255)   |
+| INTEGER(size)             | Equal to INT(size)                                                                                                                                                                  |
+| BIGINT(size)              | A large integer. Signed range is from -9223372036854775808 to 9223372036854775807. Unsigned range is from 0 to 18446744073709551615. The *size* parameter specifies the maximum display width (which is 255)                                                                                                                                                                                              |
+| FLOAT(size, d)            | A floating point number. The total number of digits is specified in*size* . The number of digits after the decimal point is specified in the *d* parameter. This syntax is deprecated in MySQL 8.0.17, and it will be removed in future MySQL versions                                                                                                                                                     |
+| FLOAT(p)                  | A floating point number. MySQL uses the*p* value to determine whether to use FLOAT or DOUBLE for the resulting data type. If *p* is from 0 to 24, the data type becomes FLOAT(). If *p* is from 25 to 53, the data type becomes DOUBLE()                                                                                                                                                                  |
+| DOUBLE(size, d)           | A normal-size floating point number. The total number of digits is specified in*size* . The number of digits after the decimal point is specified in the *d* parameter              |
+| DOUBLE PRECISION(size, d) |                                                                                                                                                                                     |
+| DECIMAL(size, d)          | An exact fixed-point number. The total number of digits is specified in *size* . The number of digits after the decimal point is specified in the *d* parameter. The maximum number for *size* is 65. The maximum number for *d* is 30. The default value for *size* is 10. The default value for *d* is 0.                                                                                               |
+| DEC(size, d)              | Equal to DECIMAL(size,d)                                                                                                                                                            |
 
 <!-- ! numeric data type table
 
-| Numeric Data Type               | Description                                                                                                                            |
-| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| BIT(*size* )                    | A bit-value type. The number of bits per value is specified in*size* . The *size* parameter can hold a value from 1 to 64. The default value for *size* is 1.                                                                                                                                                               |
-| TINYINT(*size* )                | A very small integer. Signed range is from -128 to 127. Unsigned range is from 0 to 255. The*size* parameter specifies the maximum display width (which is 255)                                                                                                                                                             |
-| BOOL                            | Zero is considered as false, nonzero values are considered as true.                                                                    |
-| BOOLEAN                         | Equal to BOOL                                                                                                                          |
-| SMALLINT(*size* )               | A small integer. Signed range is from -32768 to 32767. Unsigned range is from 0 to 65535. The*size* parameter specifies the maximum display width (which is 255)                                                                                                                                                             |
-| MEDIUMINT(*size* )              | A medium integer. Signed range is from -8388608 to 8388607. Unsigned range is from 0 to 16777215. The*size* parameter specifies the maximum display width (which is 255)                                                                                                                                               |
-| INT(*size* )                    | A medium integer. Signed range is from -2147483648 to 2147483647. Unsigned range is from 0 to 4294967295. The*size* parameter specifies the maximum display width (which is 255)                                                                                                                                       |
-| INTEGER(*size* )                | Equal to INT(size)                                                                                                                     |
-| BIGINT(*size* )                 | A large integer. Signed range is from -9223372036854775808 to 9223372036854775807. Unsigned range is from 0 to 18446744073709551615. The*size* parameter specifies the maximum display width (which is 255)                                                                                                               |
-| FLOAT(*size* , *d* )            | A floating point number. The total number of digits is specified in*size* . The number of digits after the decimal point is specified in the *d* parameter. This syntax is deprecated in MySQL 8.0.17, and it will be removed in future MySQL versions                                                                      |
-| FLOAT(*p* )                     | A floating point number. MySQL uses the*p* value to determine whether to use FLOAT or DOUBLE for the resulting data type. If *p* is from 0 to 24, the data type becomes FLOAT(). If *p* is from 25 to 53, the data type becomes DOUBLE()                                                                                     |
-| DOUBLE(*size* , *d* )           | A normal-size floating point number. The total number of digits is specified in*size* . The number of digits after the decimal point is specified in the *d* parameter                                                                                                                                                       |
-| DOUBLE PRECISION(*size* , *d* ) |                                                                                                                                        |
-| DECIMAL(*size* , *d* )          | An exact fixed-point number. The total number of digits is specified in*size* . The number of digits after the decimal point is specified in the *d* parameter. The maximum number for *size* is 65. The maximum number for *d* is 30. The default value for *size* is 10. The default value for *d* is 0.                  |
-| DEC(*size* , *d* )              | Equal to DECIMAL(size,d)                                                                                                               |
+| Numeric Data Type         | Description                                                                                                                                                                         |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| BIT(size)                 | A bit-value type. The number of bits per value is specified in*size* . The *size* parameter can hold a value from 1 to 64. The default value for *size* is 1.                       |
+| TINYINT(size)             | A very small integer. Signed range is from -128 to 127. Unsigned range is from 0 to 255. The *size* parameter specifies the maximum display width (which is 255)                    |
+| BOOL                      | Zero is considered as false, nonzero values are considered as true.                                                                                                                 |
+| BOOLEAN                   | Equal to BOOL                                                                                                                                                                       |
+| SMALLINT(size)            | A small integer. Signed range is from -32768 to 32767. Unsigned range is from 0 to 65535. The *size* parameter specifies the maximum display width (which is 255)                   |
+| MEDIUMINT(size)           | A medium integer. Signed range is from -8388608 to 8388607. Unsigned range is from 0 to 16777215. The *size* parameter specifies the maximum display width (which is 255)           |
+| INT(size)                 | A medium integer. Signed range is from -2147483648 to 2147483647. Unsigned range is from 0 to 4294967295. The *size* parameter specifies the maximum display width (which is 255)   |
+| INTEGER(size)             | Equal to INT(size)                                                                                                                                                                  |
+| BIGINT(size)              | A large integer. Signed range is from -9223372036854775808 to 9223372036854775807. Unsigned range is from 0 to 18446744073709551615. The *size* parameter specifies the maximum display width (which is 255)                                                                                                                                                                                              |
+| FLOAT(size, d)            | A floating point number. The total number of digits is specified in*size* . The number of digits after the decimal point is specified in the *d* parameter. This syntax is deprecated in MySQL 8.0.17, and it will be removed in future MySQL versions                                                                                                                                                     |
+| FLOAT(p)                  | A floating point number. MySQL uses the*p* value to determine whether to use FLOAT or DOUBLE for the resulting data type. If *p* is from 0 to 24, the data type becomes FLOAT(). If *p* is from 25 to 53, the data type becomes DOUBLE()                                                                                                                                                                  |
+| DOUBLE(size, d)           | A normal-size floating point number. The total number of digits is specified in*size* . The number of digits after the decimal point is specified in the *d* parameter              |
+| DOUBLE PRECISION(size, d) |                                                                                                                                                                                     |
+| DECIMAL(size, d)          | An exact fixed-point number. The total number of digits is specified in *size* . The number of digits after the decimal point is specified in the *d* parameter. The maximum number for *size* is 65. The maximum number for *d* is 30. The default value for *size* is 10. The default value for *d* is 0.                                                                                               |
+| DEC(size, d)              | Equal to DECIMAL(size,d)                                                                                                                                                            |
 
 -->
+
+> date/time data type parameter values ([source](https://www.w3schools.com/sql/sql_datatypes.asp))
 
 | Date/Time Data Type | Description                                                                                                                                        |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | DATE                | A date. Format: YYYY-MM-DD. The supported range is from '1000-01-01' to '9999-12-31'                                                               |
-| DATETIME(*fsp* )    | A date and time combination. Format: YYYY-MM-DD hh:mm:ss. The supported range is from '1000-01-01 00:00:00' to '9999-12-31 23:59:59'. Adding DEFAULT and ON UPDATE in the column definition to get automatic initialization and updating to the current date and time                                                                  |
-| TIMESTAMP(*fsp* )   | A timestamp. TIMESTAMP values are stored as the number of seconds since the Unix epoch ('1970-01-01 00:00:00' UTC). Format: YYYY-MM-DD hh:mm:ss. The supported range is from '1970-01-01 00:00:01' UTC to '2038-01-09 03:14:07' UTC. Automatic initialization and updating to the current date and time can be specified using DEFAULT CURRENT_TIMESTAMP and ON UPDATE CURRENT_TIMESTAMP in the column definition                                                                                                 |
-| TIME(*fsp* )        | A time. Format: hh:mm:ss. The supported range is from '-838:59:59' to '838:59:59'                                                                  |
+| DATETIME(fsp)       | A date and time combination. Format: YYYY-MM-DD hh:mm:ss. The supported range is from '1000-01-01 00:00:00' to '9999-12-31 23:59:59'. Adding DEFAULT and ON UPDATE in the column definition to get automatic initialization and updating to the current date and time                                                                                                     |
+| TIMESTAMP(fsp)      | A timestamp. TIMESTAMP values are stored as the number of seconds since the Unix epoch ('1970-01-01 00:00:00' UTC). Format: YYYY-MM-DD hh:mm:ss. The supported range is from '1970-01-01 00:00:01' UTC to '2038-01-09 03:14:07' UTC. Automatic initialization and updating to the current date and time can be specified using DEFAULT CURRENT_TIMESTAMP and ON UPDATE CURRENT_TIMESTAMP in the column definition                                                                                                                                                                 |
+| TIME(fsp)           | A time. Format: hh:mm:ss. The supported range is from '-838:59:59' to '838:59:59'                                                                  |
 | YEAR                | A year in four-digit format. Values allowed in four-digit format: 1901 to 2155, and 0000.<br/>MySQL 8.0 does not support year in two-digit format. |
 
 <!-- ! date/time data type table
@@ -822,9 +835,9 @@ CREATE TABLE table_name (
 | Date/Time Data Type | Description                                                                                                                                        |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | DATE                | A date. Format: YYYY-MM-DD. The supported range is from '1000-01-01' to '9999-12-31'                                                               |
-| DATETIME(*fsp* )    | A date and time combination. Format: YYYY-MM-DD hh:mm:ss. The supported range is from '1000-01-01 00:00:00' to '9999-12-31 23:59:59'. Adding DEFAULT and ON UPDATE in the column definition to get automatic initialization and updating to the current date and time                                                                  |
-| TIMESTAMP(*fsp* )   | A timestamp. TIMESTAMP values are stored as the number of seconds since the Unix epoch ('1970-01-01 00:00:00' UTC). Format: YYYY-MM-DD hh:mm:ss. The supported range is from '1970-01-01 00:00:01' UTC to '2038-01-09 03:14:07' UTC. Automatic initialization and updating to the current date and time can be specified using DEFAULT CURRENT_TIMESTAMP and ON UPDATE CURRENT_TIMESTAMP in the column definition                                                                                                 |
-| TIME(*fsp* )        | A time. Format: hh:mm:ss. The supported range is from '-838:59:59' to '838:59:59'                                                                  |
+| DATETIME(fsp)       | A date and time combination. Format: YYYY-MM-DD hh:mm:ss. The supported range is from '1000-01-01 00:00:00' to '9999-12-31 23:59:59'. Adding DEFAULT and ON UPDATE in the column definition to get automatic initialization and updating to the current date and time                                                                                                     |
+| TIMESTAMP(fsp)      | A timestamp. TIMESTAMP values are stored as the number of seconds since the Unix epoch ('1970-01-01 00:00:00' UTC). Format: YYYY-MM-DD hh:mm:ss. The supported range is from '1970-01-01 00:00:01' UTC to '2038-01-09 03:14:07' UTC. Automatic initialization and updating to the current date and time can be specified using DEFAULT CURRENT_TIMESTAMP and ON UPDATE CURRENT_TIMESTAMP in the column definition                                                                                                                                                                 |
+| TIME(fsp)           | A time. Format: hh:mm:ss. The supported range is from '-838:59:59' to '838:59:59'                                                                  |
 | YEAR                | A year in four-digit format. Values allowed in four-digit format: 1901 to 2155, and 0000.<br/>MySQL 8.0 does not support year in two-digit format. |
 
 -->
@@ -848,4 +861,75 @@ DELETE FROM table_name
 WHERE <condition>
 ```
 
-<!-- ? https://leetcode.com/problems/delete-duplicate-emails/solutions/3142892/explanation-of-official-solution >
+<!-- ? https://leetcode.com/problems/delete-duplicate-emails/solutions/3142892/explanation-of-official-solution -->
+
+<!--
+-->
+
+### Import spreadsheet
+
+> MySQL Workbench
+
+1. **(Top bar)** Create a new schema in the connected server
+    * Name schema > Apply > Apply > Finish
+
+2. **(Sidebar)** SCHEMAS > new_schema > Tables
+    * Right click `new_schema` > Table Data Import Wizard > File path
+    * Create new table
+    * Configure import settings
+
+> MySQL Workbench & Python
+
+```python
+import mysql.connector
+import csv
+import itertools
+import concurrent.futures
+import time
+
+CSV_FILE = './path_to/file.csv'
+CHUNK = 10_000
+MAX_WORKERS = 5
+
+sql = '''
+DROP TABLE IF EXISTS `table_name`;
+CREATE TABLE table_name (
+  ...
+)
+'''
+
+def getConnection():
+  return mysql.connector.connect(
+    user='root', 
+    password='', 
+    host='localhost', 
+    database='database_name'
+  )
+
+def createTable():
+  print(f'Creating table')
+  with getConnection() as connection:
+    connection.cursor().execute(sql)
+
+def doBulkInsert(rows):
+  with getConnection() as connection:
+    connection.cursor().executemany(f'INSERT INTO table_name (column_name, column_name) VALUES (%s, %s)', rows)
+    connection.commit()
+
+def main():
+  createTable()
+  with open(CSV_FILE) as csvFile:
+    csvData = csv.reader(csvFile)
+    _s = time.perf_counter()
+    with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
+      print(f'Inserting rows')
+      while (data := list(itertools.islice(csvData, CHUNK))):
+        executor.submit(doBulkInsert, data)
+      executor.shutdown(wait=True)
+    print(f'Duration = {time.perf_counter()-_s}')    
+
+if __name__ == '__main__':
+  main()
+
+# https://stackoverflow.com/a/69086331
+```
