@@ -6,6 +6,7 @@
   &nbsp; ∘ [Operator](#operator) <br>
   &nbsp; ∘ [Expression](#expression) <br>
   &nbsp; ∘ [Wildcards](#wildcards) <br>
+  &nbsp; ∘ [Commands](#commands) <br>
 2. [🛠️ Functions](#functions) <br>
   • [📊 Aggregate Functions](#aggregate-functions) <br>
   • [🔍 Window Functions](#window-functions) <br>
@@ -129,6 +130,10 @@ WHERE ... NOT LIKE '<pattern>'
 
 -- regular expressions
 WHERE ... REGEXP '<pattern>'
+WHERE ... NOT REGEXP '<pattern>'
+
+-- example
+WHERE mail REGEXP '^[a-zA-Z][a-zA-Z0-9_.-]*@leetcode[.]com$'
 ```
 
 * see [WILDCARDS](#wildcards)
@@ -232,6 +237,7 @@ LIMIT A OFFSET B; -- skip top B rows and fetch the next A
 2. [Operator](#operator) <br>
 3. [Expression](#expression) <br>
 4. [Wildcards](#wildcards) <br>
+5. [Commands](#commands) <br>
 
 #### COMMON TABLE EXPRESSION
 
@@ -327,6 +333,10 @@ END
 CASE
   WHEN <condition> IN ('value', 'value') THEN 'result'
 END
+
+CASE
+  WHEN column LIKE '[ABC]%' THEN 'result'
+END
 ```
 
 <!-- ----------------------------------------------------------------------- -->
@@ -374,6 +384,16 @@ END
 * `$` - match end of string
 * `.` - matches any single character, including newlines
 * `*` - match any sequence of zero or more characters
+
+<!-- ----------------------------------------------------------------------- -->
+
+#### COMMANDS
+
+```sql
+DELIMITER $$
+DELIMITER //
+DELIMITER ;
+```
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -520,6 +540,8 @@ SUM(...) OVER(RANGE BETWEEN INTERVAL <value> <unit> PRECEDING AND CURRENT ROW)
 
 ### MISC FUNCTIONS
 
+<!-- ----------------------------------------------------------------------- -->
+
 #### NULL
 
 ```sql
@@ -533,11 +555,15 @@ IFNULL(expression, alt_value)
 * `expression` - expression to test
 * `alt_value` - return value if expression is NULL
 
+<!-- ----------------------------------------------------------------------- -->
+
 #### CONDITIONAL BRANCHING
 
 ```sql
 IF(condition, value_if_true, value_if_false)
 ```
+
+<!-- ----------------------------------------------------------------------- -->
 
 #### MATH
 
@@ -548,6 +574,8 @@ ROUND(number, decimal_value, )
 ```sql
 MOD(x, y) -- %
 ```
+
+<!-- ----------------------------------------------------------------------- -->
 
 #### STRING
 
@@ -587,6 +615,17 @@ SUBSTRING(string, start, length) -- length is optional, returns whole string if 
 ```
 
 * `start` at position #, extract `length` characters
+
+```sql
+SUBSTRING_INDEX(string, delimiter, number)
+```
+
+* `delimiter` - the mark to search for
+* `number` - number of times to search delimiter
+  * positive number = all left of delimiter
+  * negative number = all right of delimiter
+
+<!-- ----------------------------------------------------------------------- -->
 
 #### DATE
 
@@ -844,9 +883,6 @@ CREATE TABLE table_name (
 
 ```sql
 DROP TABLE table_name
-```
-
-```sql
 ALTER TABLE table_name
 
 ADD column datatype;
@@ -857,16 +893,85 @@ DROP COLUMN column
 ```
 
 ```sql
+UPDATE table_name
+SET column1 = value1, column2 = value2, ...
+WHERE condition
+```
+
+```sql
 DELETE FROM table_name
 WHERE <condition>
 ```
 
 <!-- ? https://leetcode.com/problems/delete-duplicate-emails/solutions/3142892/explanation-of-official-solution -->
 
-<!--
--->
+```sql
+IF EXISTS
+IF NOT EXISTS
+```
 
-### Import spreadsheet
+<!-- ----------------------------------------------------------------------- -->
+
+### STORED FUNCTIONS AND PROCEDURES
+
+> FUNCTION
+
+* returns a single value
+
+```sql
+DELIMITER $$
+CREATE FUNCTION function_name(function_param PARAM_DATA_TYPE)
+  RETURNS <DATA_TYPE> <characteristics>
+  BEGIN
+    DECLARE variable_name VARIABLE_DATA_TYPE -- optional variables
+    <sql_statements>
+    RETURN ;
+  END $$
+DELIMITER ;
+
+-- call with select statement
+SELECT function_name(function_param) FROM ...
+```
+
+* `characteristics` can be
+  * `NOT DETERMINISTIC` (default)
+  * `DETERMINISTIC`
+
+```sql
+DROP FUNCTION function_name
+```
+
+> PROCEDURE
+
+* group of SQL statements
+
+```sql
+CREATE PROCEDURE procedure_name
+AS
+<sql_statements>
+GO;
+
+EXEC procedure_name;
+```
+
+```sql
+DELIMITER $$
+CREATE PROCEDURE procedure_name(procedure_param PARAM_DATA_TYPE)
+BEGIN
+  <sql_statements>
+END $$
+DELIMITER ;
+
+CALL procedure_name(procedure_param);
+```
+
+```sql
+DROP PROCEDURE procedure_name
+```
+
+<!-- ----------------------------------------------------------------------- -->
+
+### IMPORT SPREADSHEET
 
 > MySQL Workbench
 
