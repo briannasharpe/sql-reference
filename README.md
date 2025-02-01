@@ -625,6 +625,12 @@ SUBSTRING_INDEX(string, delimiter, number)
   * positive number = all left of delimiter
   * negative number = all right of delimiter
 
+```sql
+REPLACE(string, old_string, new_string)
+```
+
+* replace all occurences of a substring within a string
+
 <!-- ----------------------------------------------------------------------- -->
 
 #### DATE
