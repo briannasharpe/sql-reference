@@ -916,6 +916,11 @@ IF EXISTS
 IF NOT EXISTS
 ```
 
+```sql
+CREATE TEMPORARY TABLE temp_table_name AS
+  <sql_statement>
+```
+
 <!-- ----------------------------------------------------------------------- -->
 
 ### STORED FUNCTIONS AND PROCEDURES
