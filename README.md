@@ -138,26 +138,6 @@ WHERE mail REGEXP '^[a-zA-Z][a-zA-Z0-9_.-]*@leetcode[.]com$'
 
 * see [WILDCARDS](#wildcards)
 
-<!-- 
-
-REGEXP_LIKE
-REGEXP_REPLACE
-REGEXP_SUBSTR
-
-https://dev.mysql.com/doc/refman/8.4/en/regexp.html
-
-NOT REGEXP	Negation of REGEXP
-REGEXP	Whether string matches regular expression
-REGEXP_INSTR()	Starting index of substring matching regular expression
-REGEXP_LIKE()	Whether string matches regular expression
-REGEXP_REPLACE()	Replace substrings matching regular expression
-REGEXP_SUBSTR()	Return substring matching regular expression
-RLIKE	Whether string matches regular expression
-
-https://dev.mysql.com/doc/refman/8.0/en/regexp.html#function_regexp-substr
-
--->
-
 ```sql
 WHERE EXISTS <SELECT statement>
 ```
@@ -630,6 +610,38 @@ REPLACE(string, old_string, new_string)
 ```
 
 * replace all occurences of a substring within a string
+
+```sql
+REGEXP_REPLACE(expression, pattern, replacement)
+
+-- optional: position, occurence, match_type
+REGEXP_REPLACE(expression, pattern, replacement, position, occurence, match_type)
+```
+
+* replace substrings matching regular expression
+* `position` - position in `expression` to start the search (default is 1)
+* `occurence` - which occurence of a match to replace (default is 0, replace all occurences)
+* `match_type` - string that specifies how to perform matching
+
+<!-- 
+
+REGEXP_LIKE
+REGEXP_REPLACE
+REGEXP_SUBSTR
+
+https://dev.mysql.com/doc/refman/8.4/en/regexp.html
+
+NOT REGEXP	Negation of REGEXP
+REGEXP	Whether string matches regular expression
+REGEXP_INSTR()	Starting index of substring matching regular expression
+REGEXP_LIKE()	Whether string matches regular expression
+REGEXP_REPLACE()	Replace substrings matching regular expression
+REGEXP_SUBSTR()	Return substring matching regular expression
+RLIKE	Whether string matches regular expression
+
+https://dev.mysql.com/doc/refman/8.0/en/regexp.html#function_regexp-substr
+
+-->
 
 <!-- ----------------------------------------------------------------------- -->
 
