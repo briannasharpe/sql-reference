@@ -11,12 +11,15 @@
   • [📊 Aggregate Functions](#aggregate-functions) <br>
   • [🔍 Window Functions](#window-functions) <br>
   • [🛠️ Misc Functions](#misc-functions) <br>
-    &nbsp; ∘ [⛔ Null](#null) <br>
-    &nbsp; ∘ [❔ Conditional Branching](#conditional-branching) <br>
-    &nbsp; ∘ [📐 Math](#math) <br>
-    &nbsp; ∘ [💬 String](#string) <br>
-    &nbsp; ∘ [📆 Date](#date) <br>
-3. [🗃️ Database](#database)
+  &nbsp; ∘ [⛔ Null](#null) <br>
+  &nbsp; ∘ [❔ Conditional Branching](#conditional-branching) <br>
+  &nbsp; ∘ [📐 Math](#math) <br>
+  &nbsp; ∘ [💬 String](#string) <br>
+  &nbsp; ∘ [📆 Date](#date) <br>
+3. [🗃️ Database](#database) <br>
+  • [General](#general) <br>
+  • [Stored Functions and Procedures](#stored-functions-and-procedures) <br>
+  • [Import Spreadsheet](#import-spreadsheet)
 <!-- 4. [MySQL Workbench](#mysql-workbench) -->
 
 <!-- ----------------------------------------------------------------------- -->
@@ -766,7 +769,7 @@ DATE_SUB(date, INTERVAL <value> <unit>)
 | --------- | ------------------------------------------------------------------------------------------------------------------------ |
 | date      | Required. The date to be modified                                                                                        |
 | value     | Required. The value of the time/date interval to add/subtract. Both positive and negative values are allowed             |
-| unit      | Required. The type of interval to add/subtract. Can be one of the following values:<li>MICROSECOND</li> <li>SECOND</li> <li>MINUTE</li> <li>HOUR</li> <li>DAY</li> <li>WEEK</li> <li>MONTH</li> <li>QUARTER</li> <li>YEAR</li> <li>SECOND_MICROSECOND</li> <li>MINUTE_MICROSECOND</li> <li>MINUTE_SECOND</li> <li>HOUR_MICROSECOND</li> <li>HOUR_SECOND</li> <li>HOUR_MINUTE</li> <li>DAY_MICROSECOND</li> <li>DAY_SECOND</li> <li>DAY_MINUTE</li> <li>DAY_HOUR</li> <li>YEAR_MONTH<li>                                                           |
+| unit      | Required. The type of interval to add/subtract. Can be one of the following values:<li>MICROSECOND</li> <li>SECOND</li> <li>MINUTE</li> <li>HOUR</li> <li>DAY</li> <li>WEEK</li> <li>MONTH</li> <li>QUARTER</li> <li>YEAR</li> <li>SECOND_MICROSECOND</li> <li>MINUTE_MICROSECOND</li> <li>MINUTE_SECOND</li> <li>HOUR_MICROSECOND</li> <li>HOUR_SECOND</li> <li>HOUR_MINUTE</li> <li>DAY_MICROSECOND</li> <li>DAY_SECOND</li> <li>DAY_MINUTE</li> <li>DAY_HOUR</li> <li>YEAR_MONTH</li>                                                          |
 
 <!-- ! DATE_ADD / DATE_SUB table
 
@@ -774,13 +777,22 @@ DATE_SUB(date, INTERVAL <value> <unit>)
 | --------- | ------------------------------------------------------------------------------------------------------------------------ |
 | date      | Required. The date to be modified                                                                                        |
 | value     | Required. The value of the time/date interval to add/subtract. Both positive and negative values are allowed             |
-| unit      | Required. The type of interval to add/subtract. Can be one of the following values:<li>MICROSECOND</li> <li>SECOND</li> <li>MINUTE</li> <li>HOUR</li> <li>DAY</li> <li>WEEK</li> <li>MONTH</li> <li>QUARTER</li> <li>YEAR</li> <li>SECOND_MICROSECOND</li> <li>MINUTE_MICROSECOND</li> <li>MINUTE_SECOND</li> <li>HOUR_MICROSECOND</li> <li>HOUR_SECOND</li> <li>HOUR_MINUTE</li> <li>DAY_MICROSECOND</li> <li>DAY_SECOND</li> <li>DAY_MINUTE</li> <li>DAY_HOUR</li> <li>YEAR_MONTH<li>                                                           |
+| unit      | Required. The type of interval to add/subtract. Can be one of the following values:<li>MICROSECOND</li> <li>SECOND</li> <li>MINUTE</li> <li>HOUR</li> <li>DAY</li> <li>WEEK</li> <li>MONTH</li> <li>QUARTER</li> <li>YEAR</li> <li>SECOND_MICROSECOND</li> <li>MINUTE_MICROSECOND</li> <li>MINUTE_SECOND</li> <li>HOUR_MICROSECOND</li> <li>HOUR_SECOND</li> <li>HOUR_MINUTE</li> <li>DAY_MICROSECOND</li> <li>DAY_SECOND</li> <li>DAY_MINUTE</li> <li>DAY_HOUR</li> <li>YEAR_MONTH</li>                                                          |
 
 -->
 
 <!-- ----------------------------------------------------------------------- -->
 
 ## DATABASE
+
+1. [General](#general) <br>
+  • [Index](#index) <br>
+2. [Stored Functions and Procedures](#stored-functions-and-procedures) <br>
+3. [Import Spreadsheet](#import-spreadsheet)
+
+<!-- ----------------------------------------------------------------------- -->
+
+### GENERAL
 
 ```sql
 CREATE DATABASE database_name
@@ -789,15 +801,22 @@ DROP DATABASE database_name
 
 ```sql
 CREATE TABLE table_name (
-  column1 datatype,
+  column_name datatype,
   ...
-  column# datatype
+  column_name datatype,
+  PRIMARY KEY (column, column),
+  INDEX idx_name (column, column)
 )
 ```
 
-> string data type parameter values ([source](https://www.w3schools.com/sql/sql_datatypes.asp))
+```sql
+CREATE TEMPORARY TABLE temp_table_name AS
+  <sql_statement>
+```
 
-| String data type            | Description                                                                                                                                                                        |
+> STRING DATA TYPE parameter values ([source](https://www.w3schools.com/sql/sql_datatypes.asp))
+
+| String Data Type            | Description                                                                                                                                                                        |
 | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | CHAR(size)                  | A FIXED length string (can contain letters, numbers, and special characters). The *size* parameter specifies the column length in characters - can be from 0 to 255. Default is 1  |
 | VARCHAR(size)               | A VARIABLE length string (can contain letters, numbers, and special characters). The *size* parameter specifies the maximum string length in characters - can be from 0 to 65535   |
@@ -811,12 +830,12 @@ CREATE TABLE table_name (
 | MEDIUMBLOB                  | For BLOBs (Binary Large Objects). Holds up to 16,777,215 bytes of data                                                                                                             |
 | LONGTEXT                    | Holds a string with a maximum length of 4,294,967,295 characters                                                                                                                   |
 | LONGBLOB                    | For BLOBs (Binary Large Objects). Holds up to 4,294,967,295 bytes of data                                                                                                          |
-| ENUM(val1, val2, val3, ...) | A string object that can have only one value, chosen from a list of possible values. You can list up to 65535 values in an ENUM list. If a value is inserted that is not in the list, a blank value will be inserted. The values are sorted in the order you enter them                                                                                                                                    |
+| ENUM(val1, val2, val3, ...) | A string object that can have only one value, chosen from a list of possible values. You can list up to 65535 values in an ENUM list. If a value is inserted that is not in the list, a blank value will be inserted. The values are sorted in the order you enter them                                                                                                                                  |
 | SET(val1, val2, val3, ...)  | A string object that can have 0 or more values, chosen from a list of possible values. You can list up to 64 values in a SET list                                                  |
 
 <!-- ! string data type table
 
-| String data type            | Description                                                                                                                                                                        |
+| String Data Type            | Description                                                                                                                                                                        |
 | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | CHAR(size)                  | A FIXED length string (can contain letters, numbers, and special characters). The *size* parameter specifies the column length in characters - can be from 0 to 255. Default is 1  |
 | VARCHAR(size)               | A VARIABLE length string (can contain letters, numbers, and special characters). The *size* parameter specifies the maximum string length in characters - can be from 0 to 65535   |
@@ -830,12 +849,12 @@ CREATE TABLE table_name (
 | MEDIUMBLOB                  | For BLOBs (Binary Large Objects). Holds up to 16,777,215 bytes of data                                                                                                             |
 | LONGTEXT                    | Holds a string with a maximum length of 4,294,967,295 characters                                                                                                                   |
 | LONGBLOB                    | For BLOBs (Binary Large Objects). Holds up to 4,294,967,295 bytes of data                                                                                                          |
-| ENUM(val1, val2, val3, ...) | A string object that can have only one value, chosen from a list of possible values. You can list up to 65535 values in an ENUM list. If a value is inserted that is not in the list, a blank value will be inserted. The values are sorted in the order you enter them                                                                                                                                    |
+| ENUM(val1, val2, val3, ...) | A string object that can have only one value, chosen from a list of possible values. You can list up to 65535 values in an ENUM list. If a value is inserted that is not in the list, a blank value will be inserted. The values are sorted in the order you enter them                                                                                                                                  |
 | SET(val1, val2, val3, ...)  | A string object that can have 0 or more values, chosen from a list of possible values. You can list up to 64 values in a SET list                                                  |
 
 -->
 
-> numeric data type parameter values ([source](https://www.w3schools.com/sql/sql_datatypes.asp))
+> NUMERIC DATA TYPE parameter values ([source](https://www.w3schools.com/sql/sql_datatypes.asp))
 
 | Numeric Data Type         | Description                                                                                                                                                                         |
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -877,7 +896,7 @@ CREATE TABLE table_name (
 
 -->
 
-> date/time data type parameter values ([source](https://www.w3schools.com/sql/sql_datatypes.asp))
+> DATE/TIME DATA TYPE parameter values ([source](https://www.w3schools.com/sql/sql_datatypes.asp))
 
 | Date/Time Data Type | Description                                                                                                                                        |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -901,6 +920,10 @@ CREATE TABLE table_name (
 
 ```sql
 DROP TABLE table_name
+DROP TABLE IF EXISTS table_name
+```
+
+```sql
 ALTER TABLE table_name
 
 ADD column datatype;
@@ -923,14 +946,27 @@ WHERE <condition>
 
 <!-- ? https://leetcode.com/problems/delete-duplicate-emails/solutions/3142892/explanation-of-official-solution -->
 
+<!-- ----------------------------------------------------------------------- -->
+
+#### INDEX
+
 ```sql
-IF EXISTS
-IF NOT EXISTS
+-- add index on table creation
+CREATE TABLE table_name (
+  ...
+  INDEX idx_name (column, column)
+)
+
+-- add index after table creation
+CREATE INDEX idx_name ON table_name (column1, column2, ...)
 ```
 
 ```sql
-CREATE TEMPORARY TABLE temp_table_name AS
-  <sql_statement>
+SHOW INDEX FROM table_name -- returns table index information
+```
+
+```sql
+DROP INDEX idx_name ON table_name;
 ```
 
 <!-- ----------------------------------------------------------------------- -->
