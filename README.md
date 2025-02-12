@@ -88,6 +88,11 @@ RIGHT JOIN b ON a.id = b.id
 JOIN ... USING (column_of_same_name) -- instead of ON
 ```
 
+```sql
+JOIN ... 
+ON ... LIKE ...
+```
+
 <!-- ----------------------------------------------------------------------- -->
 
 ### 3. WHERE
