@@ -1,24 +1,27 @@
 # SQL Reference
 
-1. [📁 Query](#query) <br>
-  • [📂 Misc](#misc) <br>
-  &nbsp; ∘ [Common Table Expression (CTE)](#common-table-expression) <br>
-  &nbsp; ∘ [Operator](#operator) <br>
-  &nbsp; ∘ [Expression](#expression) <br>
-  &nbsp; ∘ [Wildcards](#wildcards) <br>
-  &nbsp; ∘ [Commands](#commands) <br>
-2. [🛠️ Functions](#functions) <br>
-  • [📊 Aggregate Functions](#aggregate-functions) <br>
-  • [🔍 Window Functions](#window-functions) <br>
-  • [🛠️ Misc Functions](#misc-functions) <br>
-  &nbsp; ∘ [⛔ Null](#null) <br>
-  &nbsp; ∘ [❔ Conditional Branching](#conditional-branching) <br>
-  &nbsp; ∘ [📐 Math](#math) <br>
-  &nbsp; ∘ [💬 String](#string) <br>
-  &nbsp; ∘ [📆 Date](#date) <br>
-3. [🗃️ Database](#database) <br>
-  • [General](#general) <br>
-  • [Stored Functions and Procedures](#stored-functions-and-procedures) <br>
+* MySQL (current)
+* [PostgreSQL](postgresql.md)
+
+1. [📁 Query](#query)  
+  • [📂 Misc](#misc)  
+  &nbsp; ∘ [Common Table Expression (CTE)](#common-table-expression)  
+  &nbsp; ∘ [Operator](#operator)  
+  &nbsp; ∘ [Expression](#expression)  
+  &nbsp; ∘ [Wildcards](#wildcards)  
+  &nbsp; ∘ [Commands](#commands)  
+2. [🛠️ Functions](#functions)  
+  • [📊 Aggregate Functions](#aggregate-functions)  
+  • [🔍 Window Functions](#window-functions)  
+  • [🛠️ Misc Functions](#misc-functions)  
+  &nbsp; ∘ [⛔ Null](#null)  
+  &nbsp; ∘ [❔ Conditional Branching](#conditional-branching)  
+  &nbsp; ∘ [📐 Math](#math)  
+  &nbsp; ∘ [💬 String](#string)  
+  &nbsp; ∘ [📆 Date](#date)  
+3. [🗃️ Database](#database)  
+  • [General](#general)  
+  • [Stored Functions and Procedures](#stored-functions-and-procedures)  
   • [Import Spreadsheet](#import-spreadsheet)
 <!-- 4. [MySQL Workbench](#mysql-workbench) -->
 
@@ -38,17 +41,17 @@ ORDER BY ...
 LIMIT <#>
 ```
 
-1. [Select](#1-select) <br>
-2. [Join](#2-join) <br>
-3. [Where](#3-where) <br>
-4. [Group By](#4-group-by) <br>
-5. [Having](#5-having) <br>
-6. [Order By](#6-order-by) <br>
+1. [Select](#1-select)  
+2. [Join](#2-join)  
+3. [Where](#3-where)  
+4. [Group By](#4-group-by)  
+5. [Having](#5-having)  
+6. [Order By](#6-order-by)  
 7. [Limit](#7-limit)
-8. [Misc](#misc) <br>
-  • [Common Table Expression (CTE)](#common-table-expression) <br>
-  • [Operator](#operator) <br>
-  • [Expression](#expression) <br>
+8. [Misc](#misc)  
+  • [Common Table Expression (CTE)](#common-table-expression)  
+  • [Operator](#operator)  
+  • [Expression](#expression)  
   • [Wildcards](#wildcards)
 
 <!-- ----------------------------------------------------------------------- -->
@@ -71,9 +74,9 @@ FULL JOIN -- OUTER
 CROSS JOIN
 ```
 
-* `JOIN` - matching rows <br>
-* `FULL JOIN` - all rows <br>
-* `CROSS JOIN` - match each row (cartesian product) <br>
+* `JOIN` - matching rows  
+* `FULL JOIN` - all rows  
+* `CROSS JOIN` - match each row (cartesian product)  
 
 ```sql
 -- MySQL FULL JOIN
@@ -222,10 +225,10 @@ LIMIT A OFFSET B; -- skip top B rows and fetch the next A
 ### MISC
 
 1. [Common Table Expression (CTE)](#common-table-expression)
-2. [Operator](#operator) <br>
-3. [Expression](#expression) <br>
-4. [Wildcards](#wildcards) <br>
-5. [Commands](#commands) <br>
+2. [Operator](#operator)  
+3. [Expression](#expression)  
+4. [Wildcards](#wildcards)  
+5. [Commands](#commands)  
 
 #### COMMON TABLE EXPRESSION
 
@@ -387,14 +390,14 @@ DELIMITER ;
 
 ## FUNCTIONS
 
-1. [📊 Aggregate Functions](#aggregate-functions) <br>
-2. [🔍 Window Functions](#window-functions) <br>
-3. [🛠️ Misc Functions](#misc-functions) <br>
-  • [⛔ Null](#null) <br>
-  • [❔ Conditional Branching](#conditional-branching) <br>
-  • [📐 Math](#math) <br>
-  • [💬 String](#string) <br>
-  • [📆 Date](#date) <br>
+1. [📊 Aggregate Functions](#aggregate-functions)  
+2. [🔍 Window Functions](#window-functions)  
+3. [🛠️ Misc Functions](#misc-functions)  
+  • [⛔ Null](#null)  
+  • [❔ Conditional Branching](#conditional-branching)  
+  • [📐 Math](#math)  
+  • [💬 String](#string)  
+  • [📆 Date](#date)  
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -404,8 +407,8 @@ DELIMITER ;
 SUM()
 ```
 
-* `SUM(<condition>)` - the count of rows where the condition is TRUE <br>
-* `SUM(CASE WHEN <condition> THEN col ELSE 0 END)` - sum of condition <!-- (see [`CASE`](#case)) --> (preferred)<br>
+* `SUM(<condition>)` - the count of rows where the condition is TRUE  
+* `SUM(CASE WHEN <condition> THEN col ELSE 0 END)` - sum of condition <!-- (see [`CASE`](#case)) --> (preferred)
 * `SUM(<condition> * col)` - sum of condition <!-- ? --> (if condition is `NULL`, the row is ignored)
 * rolling total - see [WINDOW FUNCTIONS](#window-functions)
 
@@ -427,8 +430,8 @@ MAX()
 COUNT()
 ```
 
-* `COUNT(*)` - all rows (`NULL` rows counted) <br>
-* `COUNT(col)` - non-NULL rows (`NULL` rows <ins>**not**</ins> counted) <br>
+* `COUNT(*)` - all rows (`NULL` rows counted)  
+* `COUNT(col)` - non-NULL rows (`NULL` rows <ins>**not**</ins> counted)  
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -790,9 +793,9 @@ DATE_SUB(date, INTERVAL <value> <unit>)
 
 ## DATABASE
 
-1. [General](#general) <br>
-  • [Index](#index) <br>
-2. [Stored Functions and Procedures](#stored-functions-and-procedures) <br>
+1. [General](#general)  
+  • [Index](#index)  
+2. [Stored Functions and Procedures](#stored-functions-and-procedures)  
 3. [Import Spreadsheet](#import-spreadsheet)
 
 <!-- ----------------------------------------------------------------------- -->
@@ -924,6 +927,16 @@ CREATE TEMPORARY TABLE temp_table_name AS
 -->
 
 ```sql
+--- duplicate a table
+CREATE TABLE new_table
+LIKE old_table;
+
+INSERT new_table
+SELECT *
+FROM old_table;
+```
+
+```sql
 DROP TABLE table_name
 DROP TABLE IF EXISTS table_name
 ```
@@ -941,7 +954,14 @@ DROP COLUMN column
 ```sql
 UPDATE table_name
 SET column1 = value1, column2 = value2, ...
-WHERE condition
+WHERE <condition>
+
+-- update join
+UPDATE table1 a
+JOIN table2 b
+  ON a.id = b.id
+SET column1 = value1, column2 = value2, ...
+WHERE <condition>
 ```
 
 ```sql
@@ -1039,15 +1059,14 @@ DROP PROCEDURE procedure_name
 
 > MySQL Workbench
 
-1. **(Top bar)** Create a new schema in the connected server
+* **(Top bar)** Create a new schema in the connected server
     * Name schema > Apply > Apply > Finish
-
 2. **(Sidebar)** SCHEMAS > new_schema > Tables
     * Right click `new_schema` > Table Data Import Wizard > File path
     * Create new table
     * Configure import settings
 
-> MySQL Workbench & Python
+> Python
 
 ```python
 import mysql.connector
@@ -1056,46 +1075,68 @@ import itertools
 import concurrent.futures
 import time
 
-CSV_FILE = './path_to/file.csv'
 CHUNK = 10_000
 MAX_WORKERS = 5
 
-sql = '''
-DROP TABLE IF EXISTS `table_name`;
-CREATE TABLE table_name (
-  ...
-)
-'''
+CSV_FILE = './path_to/file.csv'
+DB_HOST = 'localhost'
+DB_USER = 'root'
+DB_PASSWORD = ''
+DB_NAME = 'database_name'
+TABLE_NAME = 'table_name'
+COLUMN_TYPES = {
+  'COLUMN': 'DATA_TYPE', 
+  'COLUMN': 'DATA_TYPE', 
+  'COLUMN': 'DATA_TYPE' 
+}
 
-def getConnection():
-  return mysql.connector.connect(
-    user='root', 
-    password='', 
-    host='localhost', 
-    database='database_name'
-  )
+with open(CSV_FILE) as file:
+  data = csv.reader(file)
+  headers = next(data)
+  columns = ', '.join([f'`{col}` {COLUMN_TYPES.get(col)}' for col in headers])
+
+placeholders = ', '.join(['%s'] * len(headers))
+
+connection = mysql.connector.connect(
+  user=DB_USER,
+  password=DB_PASSWORD,
+  host=DB_HOST
+)
+
+cursor = connection.cursor()
+
+def createDatabase():
+  print(f'Creating database')
+  cursor.execute(f'CREATE DATABASE IF NOT EXISTS {DB_NAME}')
+  cursor.execute(f'USE {DB_NAME}')
 
 def createTable():
   print(f'Creating table')
-  with getConnection() as connection:
-    connection.cursor().execute(sql)
+  cursor.execute(f'DROP TABLE IF EXISTS {TABLE_NAME}')
+  cursor.execute(f'CREATE TABLE {TABLE_NAME} ({columns})')
 
 def doBulkInsert(rows):
-  with getConnection() as connection:
-    connection.cursor().executemany(f'INSERT INTO table_name (column_name, column_name) VALUES (%s, %s)', rows)
-    connection.commit()
+  cursor.executemany(f'INSERT INTO {TABLE_NAME} ({', '.join(headers)}) VALUES ({placeholders})', rows)
+  connection.commit()
 
 def main():
+  _s = time.perf_counter()
+  createDatabase()
   createTable()
+
   with open(CSV_FILE) as csvFile:
     csvData = csv.reader(csvFile)
-    _s = time.perf_counter()
     with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
       print(f'Inserting rows')
       while (data := list(itertools.islice(csvData, CHUNK))):
         executor.submit(doBulkInsert, data)
+        time.sleep(0.5)
       executor.shutdown(wait=True)
-    print(f'Duration = {time.perf_counter()-_s}')    
+
+  print(f'Duration = {time.perf_counter()-_s}')
+
+  cursor.close()
+  connection.close()
 
 if __name__ == '__main__':
   main()
