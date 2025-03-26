@@ -1,5 +1,8 @@
 # PostgreSQL Reference
 
+* [MySQL](README.md)
+* **PostgreSQL** (current)
+
 1. [📁 Query](#query) <br>
   <!-- • [📂 Misc](#misc) <br>
   &nbsp; ∘ [Common Table Expression (CTE)](#common-table-expression) <br>
@@ -20,7 +23,7 @@
   • [General](#general) <br>
   <!-- • [Stored Functions and Procedures](#stored-functions-and-procedures) <br>
   • [Import Spreadsheet](#import-spreadsheet) -->
-<!-- 4. [MySQL Workbench](#mysql-workbench) -->
+<!-- 4. [pgAdmin](#pgadmin) -->
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -127,6 +130,19 @@ SPLIT_PART(string, delimiter, number)
 * `number` - number of times to search delimiter
   * positive number = all left of delimiter
   * negative number = all right of delimiter
+
+```sql
+REGEXP_REPLACE(expression, pattern, replacement)
+
+--optional: flags
+REGEXP_REPLACE(expression, pattern, replacement, flags)
+```
+
+* flags
+  * `'g'` - replace all occurences 
+    * without `'g'`, only first match is replaced
+  * `'i'` - case insensitive matching
+  * `'n'` - matching any character and newline characters
 
 #### DATE
 

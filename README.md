@@ -1,6 +1,6 @@
 # SQL Reference
 
-* MySQL (current)
+* **MySQL** (current)
 * [PostgreSQL](postgresql.md)
 
 1. [📁 Query](#query)  
@@ -1071,13 +1071,9 @@ DROP PROCEDURE procedure_name
 ```python
 import mysql.connector
 import csv
-import itertools
-import concurrent.futures
 import time
 
 CHUNK = 10_000
-MAX_WORKERS = 5
-
 CSV_FILE = './path_to/file.csv'
 DB_HOST = 'localhost'
 DB_USER = 'root'
@@ -1096,6 +1092,7 @@ with open(CSV_FILE) as file:
   columns = ', '.join([f'`{col}` {COLUMN_TYPES.get(col)}' for col in headers])
 
 placeholders = ', '.join(['%s'] * len(headers))
+insert_query = f'INSERT INTO {TABLE_NAME} ({', '.join(headers)}) VALUES ({placeholders})'
 
 connection = mysql.connector.connect(
   user=DB_USER,
@@ -1115,23 +1112,36 @@ def createTable():
   cursor.execute(f'DROP TABLE IF EXISTS {TABLE_NAME}')
   cursor.execute(f'CREATE TABLE {TABLE_NAME} ({columns})')
 
-def doBulkInsert(rows):
-  cursor.executemany(f'INSERT INTO {TABLE_NAME} ({', '.join(headers)}) VALUES ({placeholders})', rows)
-  connection.commit()
+def doBulkInsert(data):
+  print(f'Inserting rows')
+  rows = []
+  rows_inserted = 0
+
+  for row in data:
+    rows.append(tuple(row))
+
+    if len(rows) == CHUNK:
+      cursor.executemany(insert_query, rows)
+      connection.commit()
+      rows_inserted += len(rows)
+      rows.clear()
+
+  if rows:
+    cursor.executemany(insert_query, rows)
+    connection.commit()
+    rows_inserted += len(rows)
+
+  print(f'Inserted {rows_inserted} rows')
 
 def main():
   _s = time.perf_counter()
   createDatabase()
   createTable()
 
-  with open(CSV_FILE) as csvFile:
-    csvData = csv.reader(csvFile)
-    with concurrent.futures.ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-      print(f'Inserting rows')
-      while (data := list(itertools.islice(csvData, CHUNK))):
-        executor.submit(doBulkInsert, data)
-        time.sleep(0.5)
-      executor.shutdown(wait=True)
+  with open(CSV_FILE) as file:
+    data = csv.reader(file)
+    next(data)
+    doBulkInsert(data)
 
   print(f'Duration = {time.perf_counter()-_s}')
 
@@ -1140,6 +1150,4 @@ def main():
 
 if __name__ == '__main__':
   main()
-
-# https://stackoverflow.com/a/69086331
 ```
