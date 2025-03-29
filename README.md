@@ -23,7 +23,7 @@
   • [General](#general)  
   • [Stored Functions and Procedures](#stored-functions-and-procedures)  
   • [Import Spreadsheet](#import-spreadsheet)
-<!-- 4. [MySQL Workbench](#mysql-workbench) -->
+  • [Export Table](#export-table)  
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -256,6 +256,16 @@ UNION
 * combine result-set of two or more `SELECT` statements
 * must have same number of columns and similar data types
 * `UNION ALL` allow duplicate values
+
+> EXCEPT
+
+```sql
+SELECT * FROM table1
+EXCEPT
+SELECT * FROM table2
+```
+
+* difference between two `SELECT` statements
 
 > NULL
 
@@ -797,6 +807,7 @@ DATE_SUB(date, INTERVAL <value> <unit>)
   • [Index](#index)  
 2. [Stored Functions and Procedures](#stored-functions-and-procedures)  
 3. [Import Spreadsheet](#import-spreadsheet)
+4. [Export Table](#export-table)
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -1059,11 +1070,12 @@ DROP PROCEDURE procedure_name
 
 > MySQL Workbench
 
-* **(Top bar)** Create a new schema in the connected server
-    * Name schema > Apply > Apply > Finish
-2. **(Sidebar)** SCHEMAS > new_schema > Tables
-    * Right click `new_schema` > Table Data Import Wizard > File path
-    * Create new table
+1. Create a new schema in the connected server
+    * **(Top bar)** Database icon > Name schema `schema_name`
+    * **(Sidebar)** Right click sidebar 'Create Schema' > Name schema `schema_name`
+2. Import csv file data
+    * Right click `schema_name` > Table Data Import Wizard > File path
+    * Create new table `table_name`
     * Configure import settings
 
 > Python
@@ -1074,7 +1086,7 @@ import csv
 import time
 
 CHUNK = 10_000
-CSV_FILE = './path_to/file.csv'
+CSV_FILE = rf'.\path_to\file.csv'
 DB_HOST = 'localhost'
 DB_USER = 'root'
 DB_PASSWORD = ''
@@ -1150,4 +1162,59 @@ def main():
 
 if __name__ == '__main__':
   main()
+```
+
+<!-- ----------------------------------------------------------------------- -->
+
+### EXPORT TABLE
+
+> MySQL Workbench
+
+* Navigator > `database_name` Database > Table > Right click `table_name` > Export
+
+> Python
+
+```python
+import mysql.connector
+import csv
+import time
+import os
+
+DB_HOST = 'localhost'
+DB_USER = 'root'
+DB_PASSWORD = ''
+DB_NAME = 'database_name'
+TABLE_NAME = 'table_name'
+CSV_FILE = 'file_name.csv'
+OUTPUT_FOLDER = rf'.\folder'
+OUTPUT_PATH = os.path.join(OUTPUT_FOLDER, CSV_FILE)
+
+os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+
+connection = mysql.connector.connect(
+  user=DB_USER,
+  password=DB_PASSWORD,
+  host=DB_HOST,
+  database=DB_NAME
+)
+
+cursor = connection.cursor()
+_s = time.perf_counter()
+
+print(f'Fetching table data')
+cursor.execute(f'SELECT * FROM {TABLE_NAME}')
+rows = cursor.fetchall()
+columns = [i[0] for i in cursor.description]
+
+print(f'Writing to file')
+with open(OUTPUT_PATH, mode='w', newline='') as file:
+  data = csv.writer(file)
+  data.writerow(columns)
+  data.writerows(rows)
+
+cursor.close()
+connection.close()
+
+print(f'Exported {TABLE_NAME} to {OUTPUT_PATH}')
+print(f'Duration = {time.perf_counter()-_s}')
 ```

@@ -3,44 +3,56 @@
 * [MySQL](README.md)
 * **PostgreSQL** (current)
 
-1. [📁 Query](#query) <br>
-  <!-- • [📂 Misc](#misc) <br>
-  &nbsp; ∘ [Common Table Expression (CTE)](#common-table-expression) <br>
-  &nbsp; ∘ [Operator](#operator) <br>
-  &nbsp; ∘ [Expression](#expression) <br>
-  &nbsp; ∘ [Wildcards](#wildcards) <br>
-  &nbsp; ∘ [Commands](#commands) <br> -->
-2. [🛠️ Functions](#functions) <br>
-  <!-- • [📊 Aggregate Functions](#aggregate-functions) <br>
-  • [🔍 Window Functions](#window-functions) <br>
-  • [🛠️ Misc Functions](#misc-functions) <br>
-  &nbsp; ∘ [⛔ Null](#null) <br>
-  &nbsp; ∘ [❔ Conditional Branching](#conditional-branching) <br>
-  &nbsp; ∘ [📐 Math](#math) <br>
-  &nbsp; ∘ [💬 String](#string) <br>
-  &nbsp; ∘ [📆 Date](#date) <br> -->
-3. [🗃️ Database](#database) <br>
-  • [General](#general) <br>
-  <!-- • [Stored Functions and Procedures](#stored-functions-and-procedures) <br>
-  • [Import Spreadsheet](#import-spreadsheet) -->
-<!-- 4. [pgAdmin](#pgadmin) -->
+1. [📁 Query](#query)  
+  • [📂 Misc](#misc)  
+  &nbsp; ∘ [Common Table Expression (CTE)](#common-table-expression)  
+  &nbsp; ∘ [Operator](#operator)  
+  &nbsp; ∘ [Expression](#expression)  
+  &nbsp; ∘ [Wildcards](#wildcards)  
+  &nbsp; ∘ [Commands](#commands)  
+2. [🛠️ Functions](#functions)  
+  • [📊 Aggregate Functions](#aggregate-functions)  
+  • [🔍 Window Functions](#window-functions)  
+  • [🛠️ Misc Functions](#misc-functions)  
+  &nbsp; ∘ [⛔ Null](#null)  
+  &nbsp; ∘ [❔ Conditional Branching](#conditional-branching)  
+  &nbsp; ∘ [📐 Math](#math)  
+  &nbsp; ∘ [💬 String](#string)  
+  &nbsp; ∘ [📆 Date](#date)  
+3. [🗃️ Database](#database)  
+  • [General](#general)  
+  • [Stored Functions and Procedures](#stored-functions-and-procedures)  
+  • [Import Spreadsheet](#import-spreadsheet)  
+  • [Export Table](#export-table)
 
 <!-- ----------------------------------------------------------------------- -->
 
 ## QUERY
 
-1. [Select](#1-select) <br>
-2. [Join](#2-join) <br>
-3. [Where](#3-where) <br>
-4. [Group By](#4-group-by) <br>
-5. [Having](#5-having) <br>
-6. [Order By](#6-order-by) <br>
+```sql
+SELECT col1, AGG(col2), ...
+FROM table1 t1
+JOIN table2  t2
+  ON t1.id = t2.id
+WHERE <condition>
+GROUP BY ...
+HAVING <condition>
+ORDER BY ...
+LIMIT <#>
+```
+
+1. [Select](#1-select)  
+2. [Join](#2-join)  
+3. [Where](#3-where)  
+4. [Group By](#4-group-by)  
+5. [Having](#5-having)  
+6. [Order By](#6-order-by)  
 7. [Limit](#7-limit)
-8. [Misc](#misc) <br>
-  <!-- • [Common Table Expression (CTE)](#common-table-expression) <br>
-  • [Operator](#operator) <br>
-  • [Expression](#expression) <br>
-  • [Wildcards](#wildcards) -->
+8. [Misc](#misc)  
+  • [Common Table Expression (CTE)](#common-table-expression)  
+  • [Operator](#operator)  
+  • [Expression](#expression)  
+  • [Wildcards](#wildcards)
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -71,11 +83,11 @@ WHERE mail ~ '^[a-zA-Z][a-zA-Z0-9_.-]*@leetcode[.]com$'
 
 ### MISC
 
-<!-- 1. [Common Table Expression (CTE)](#common-table-expression)
-2. [Operator](#operator) <br>
-3. [Expression](#expression) <br>
-4. [Wildcards](#wildcards) <br>
-5. [Commands](#commands) <br> -->
+1. [Common Table Expression (CTE)](#common-table-expression)  
+2. [Operator](#operator)  
+3. [Expression](#expression)  
+4. [Wildcards](#wildcards)  
+5. [Commands](#commands)  
 
 #### COMMON TABLE EXPRESSION
 
@@ -139,7 +151,7 @@ REGEXP_REPLACE(expression, pattern, replacement, flags)
 ```
 
 * flags
-  * `'g'` - replace all occurences 
+  * `'g'` - replace all occurences
     * without `'g'`, only first match is replaced
   * `'i'` - case insensitive matching
   * `'n'` - matching any character and newline characters
@@ -150,10 +162,11 @@ REGEXP_REPLACE(expression, pattern, replacement, flags)
 
 ## DATABASE
 
-1. [General](#general) <br>
-  <!-- • [Index](#index) <br> -->
-<!-- 2. [Stored Functions and Procedures](#stored-functions-and-procedures) <br>
-3. [Import Spreadsheet](#import-spreadsheet) -->
+1. [General](#general)  
+  • [Index](#index)  
+2. [Stored Functions and Procedures](#stored-functions-and-procedures)  
+3. [Import Spreadsheet](#import-spreadsheet)  
+4. [Export Table](#export-table)  
 
 <!-- ----------------------------------------------------------------------- -->
 
@@ -186,6 +199,33 @@ FROM table2
 WHERE <condition> -- table1.column = table2.column, ...
 ```
 
+#### INDEX
+
 ### STORED FUNCTIONS AND PROCEDURES
 
 ### IMPORT SPREADSHEET
+
+> pgAdmin
+
+1. Create a new server
+    * Right click 'Servers' > Register > Server
+      * General > Name server
+      * Connection > Host name/address & Password
+2. Create a new database
+    * Right click 'Databases' > Create
+      * General > Name database
+3. Create a new schema
+    * Right click 'Schemas' > Create
+      * General > Name schema
+4. Create a new table
+    * Right click 'Schemas' > Query Tool
+    * Run `CREATE TABLE table_name (...)` with specified values
+    * Right click `table_name` > Import/Export data
+
+<!-- ----------------------------------------------------------------------- -->
+
+### EXPORT TABLE
+
+> pgAdmin
+
+* Right click `table_name` table > Import/Export data
