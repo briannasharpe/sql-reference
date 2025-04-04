@@ -829,6 +829,11 @@ CREATE TABLE table_name (
 ```
 
 ```sql
+-- subquery table
+CREATE TABLE table_name AS
+  <sql_statement>
+
+-- temporary table
 CREATE TEMPORARY TABLE temp_table_name AS
   <sql_statement>
 ```
