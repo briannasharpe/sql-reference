@@ -58,9 +58,15 @@ LIMIT <#>
 
 ### 1. SELECT
 
+<!-- ----------------------------------------------------------------------- -->
+
 ### 2. JOIN
 
+<!-- ----------------------------------------------------------------------- -->
+
 ### 3. WHERE
+
+<!-- ----------------------------------------------------------------------- -->
 
 ```sql
 -- regular expressions
@@ -73,13 +79,23 @@ WHERE ... !~* '<pattern>' -- case insensitive (unmatched)
 WHERE mail ~ '^[a-zA-Z][a-zA-Z0-9_.-]*@leetcode[.]com$'
 ```
 
+<!-- ----------------------------------------------------------------------- -->
+
 ### 4. GROUP BY
+
+<!-- ----------------------------------------------------------------------- -->
 
 ### 5. HAVING
 
+<!-- ----------------------------------------------------------------------- -->
+
 ### 6. ORDER BY
 
+<!-- ----------------------------------------------------------------------- -->
+
 ### 7. LIMIT
+
+<!-- ----------------------------------------------------------------------- -->
 
 ### MISC
 
@@ -89,13 +105,23 @@ WHERE mail ~ '^[a-zA-Z][a-zA-Z0-9_.-]*@leetcode[.]com$'
 4. [Wildcards](#wildcards)  
 5. [Commands](#commands)  
 
+<!-- ----------------------------------------------------------------------- -->
+
 #### COMMON TABLE EXPRESSION
+
+<!-- ----------------------------------------------------------------------- -->
 
 #### OPERATOR
 
+<!-- ----------------------------------------------------------------------- -->
+
 #### EXPRESSION
 
+<!-- ----------------------------------------------------------------------- -->
+
 #### WILDCARDS
+
+<!-- ----------------------------------------------------------------------- -->
 
 #### COMMANDS
 
@@ -116,15 +142,34 @@ WHERE mail ~ '^[a-zA-Z][a-zA-Z0-9_.-]*@leetcode[.]com$'
 
 ### AGGREGATE FUNCTIONS
 
+<!-- ----------------------------------------------------------------------- -->
+
 ### WINDOW FUNCTIONS
+
+<!-- ----------------------------------------------------------------------- -->
 
 ### MISC FUNCTIONS
 
+<!-- ----------------------------------------------------------------------- -->
+
 #### NULL
+
+<!-- ----------------------------------------------------------------------- -->
 
 #### CONDITIONAL BRANCHING
 
+<!-- ----------------------------------------------------------------------- -->
+
 #### MATH
+
+```sql
+ROUND(number, decimals) -- decimals is optional, rounds to nearest integer if not specified
+```
+
+* `number` - value to be rounded
+* `decimals` - decimal places to round
+
+<!-- ----------------------------------------------------------------------- -->
 
 #### STRING
 
@@ -144,10 +189,7 @@ SPLIT_PART(string, delimiter, number)
   * negative number = all right of delimiter
 
 ```sql
-REGEXP_REPLACE(expression, pattern, replacement)
-
---optional: flags
-REGEXP_REPLACE(expression, pattern, replacement, flags)
+REGEXP_REPLACE(expression, pattern, replacement, flags) -- flags is optional
 ```
 
 * flags
@@ -155,6 +197,8 @@ REGEXP_REPLACE(expression, pattern, replacement, flags)
     * without `'g'`, only first match is replaced
   * `'i'` - case insensitive matching
   * `'n'` - matching any character and newline characters
+
+<!-- ----------------------------------------------------------------------- -->
 
 #### DATE
 
@@ -199,9 +243,15 @@ FROM table2
 WHERE <condition> -- table1.column = table2.column, ...
 ```
 
+<!-- ----------------------------------------------------------------------- -->
+
 #### INDEX
 
+<!-- ----------------------------------------------------------------------- -->
+
 ### STORED FUNCTIONS AND PROCEDURES
+
+<!-- ----------------------------------------------------------------------- -->
 
 ### IMPORT SPREADSHEET
 
@@ -229,3 +279,39 @@ WHERE <condition> -- table1.column = table2.column, ...
 > pgAdmin
 
 * Right click `table_name` table > Import/Export data
+
+> Python
+
+```python
+import pandas as pd
+from sqlalchemy import create_engine
+import time
+import os
+
+DB_PORT = '5432'
+DB_HOST = 'localhost'
+DB_USER = 'postgres'
+DB_PASSWORD = ''
+DB_NAME = 'database_name'
+TABLES = ['table_name', 'table_name', ...]
+OUTPUT_FILE = 'file_name.xlsx'
+OUTPUT_FOLDER = rf'.\folder'
+OUTPUT_PATH = os.path.join(OUTPUT_FOLDER, OUTPUT_FILE)
+
+engine = create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}')
+writer = pd.ExcelWriter(OUTPUT_PATH, engine='xlsxwriter')
+_s = time.perf_counter()
+
+for table in TABLES:
+  print(f'Fetching table data for {table}')
+  query = f'SELECT * FROM {DB_NAME}.{table}'
+
+  print(f'Writing data to excel sheet')
+  df = pd.read_sql(query, engine)
+  df.to_excel(writer, sheet_name=table, index=False)
+
+writer.close()
+print(f'Exported to {OUTPUT_PATH}')
+print(f'Duration = {time.perf_counter()-_s}') 
+
+```

@@ -22,7 +22,7 @@
 3. [🗃️ Database](#database)  
   • [General](#general)  
   • [Stored Functions and Procedures](#stored-functions-and-procedures)  
-  • [Import Spreadsheet](#import-spreadsheet)
+  • [Import Spreadsheet](#import-spreadsheet)  
   • [Export Table](#export-table)  
 
 <!-- ----------------------------------------------------------------------- -->
@@ -569,8 +569,14 @@ IF(condition, value_if_true, value_if_false)
 #### MATH
 
 ```sql
-ROUND(number, decimal_value, )
+ROUND(number, decimals, operation) -- operation is optional
 ```
+
+* `number` - value to be rounded
+* `decimals` - decimal places to round
+* `operation`
+  * `0` - round to the number of `decimals` (default)
+  * anything other than `0` - truncate to the number of `decimals`
 
 ```sql
 MOD(x, y) -- %
